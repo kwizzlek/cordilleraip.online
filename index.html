@@ -20,11 +20,11 @@
 }
 
 /* ── Diagram expand overlay ── */
-.diag-expand-btn{display:none;position:absolute;bottom:8px;right:8px;
+.diag-expand-btn{display:none;
   background:rgba(18,22,34,.75);color:#f6f3ec;border:1px solid rgba(246,243,236,.22);
-  border-radius:6px;padding:5px 11px 5px 8px;font-size:.62rem;letter-spacing:.18em;
-  text-transform:uppercase;cursor:pointer;backdrop-filter:blur(6px);z-index:10;
-  font-family:var(--sans);align-items:center;gap:5px}
+  border-radius:6px;padding:6px 12px;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;cursor:pointer;backdrop-filter:blur(6px);
+  font-family:var(--sans);align-items:center;gap:5px;align-self:center;flex-shrink:0}
 .diag-expand-btn:active{background:rgba(18,22,34,.95)}
 .diag-overlay{display:none;position:fixed;inset:0;background:rgba(10,12,18,.96);z-index:200;
   flex-direction:column;align-items:flex-start;justify-content:flex-start;
@@ -38,7 +38,7 @@
 .diag-overlay-hint{position:fixed;bottom:20px;left:0;right:0;text-align:center;
   color:rgba(246,243,236,.4);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
   pointer-events:none}
-@media (max-width:640px){.diag-expand-btn{display:flex}}
+@media (max-width:640px){.diag-expand-btn{display:inline-flex}}
 </style>
 <style>
 :root{
@@ -166,6 +166,7 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 
 /* CHANGE #7: Swipe hint */
 .swipe-hint{display:none}
+.swipe-explore{display:none}
 
 .reveal{opacity:0;transform:translateY(8px)}
 .slide:not(.active) .reveal{opacity:0;transform:translateY(8px)}
@@ -447,19 +448,27 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <h2 class="display reveal" style="margin-top:.4rem">The private AI layer <em class="acc">behind the firm</em>.</h2>
 </div>
 
-<!-- DESKTOP SVG (unchanged) -->
-<svg class="diag-svg reveal" viewBox="0 0 1100 480" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+<!-- DESKTOP SVG — redesigned: clean 4-card memory band, fixed overlapping bottom row, symmetric connectors -->
+<svg class="diag-svg reveal" viewBox="0 0 1100 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 <defs>
 <radialGradient id="cCore"><stop offset="0%" stop-color="#d99262" stop-opacity=".26"/><stop offset="100%" stop-color="#5b8298" stop-opacity=".06"/></radialGradient>
 <radialGradient id="cGold"><stop offset="0%" stop-color="#d99262" stop-opacity=".30"/><stop offset="100%" stop-color="#d99262" stop-opacity=".06"/></radialGradient>
 <radialGradient id="cBlue"><stop offset="0%" stop-color="#5b8298" stop-opacity=".30"/><stop offset="100%" stop-color="#5b8298" stop-opacity=".06"/></radialGradient>
 </defs>
-<path d="M 440 240 H 320" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".7"/>
-<path d="M 660 240 H 780" stroke="#5b8298" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".7"/>
-<path d="M 520 298 C 480 360 380 400 300 420" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".5"/>
-<path d="M 580 298 C 620 360 720 400 800 420" stroke="#5b8298" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".5"/>
-<path d="M 500 182 C 430 130 350 90 310 72" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".5"/>
-<path d="M 600 182 C 670 130 750 90 790 72" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".5"/>
+
+<!-- Connectors UP from core to lawyers -->
+<path d="M 487 178 C 430 128 380 95 360 84" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".55"/>
+<path d="M 613 178 C 670 128 720 95 740 84" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".55"/>
+
+<!-- Side connectors core ↔ foundation / flexibility -->
+<path d="M 462 240 H 340" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".7"/>
+<path d="M 638 240 H 760" stroke="#5b8298" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".7"/>
+
+<!-- Connectors DOWN from core to memory band -->
+<path d="M 487 302 C 440 340 380 358 300 358" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".55"/>
+<path d="M 613 302 C 660 340 720 358 800 358" stroke="#5b8298" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".55"/>
+
+<!-- CORE -->
 <circle cx="550" cy="240" r="105" fill="none" stroke="#d99262" stroke-width="1" stroke-opacity=".3"/>
 <circle cx="550" cy="240" r="88" fill="url(#cCore)"/>
 <circle cx="550" cy="240" r="88" fill="none" stroke="rgba(217,146,98,.4)"/>
@@ -467,48 +476,69 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <text x="550" y="226" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Cordillera</text>
 <text x="550" y="244" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#d99262">AI Operating</text>
 <text x="550" y="262" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Layer</text>
-<g><rect x="252" y="30" width="130" height="62" rx="14" fill="url(#cGold)" stroke="rgba(217,146,98,.4)"/><text x="317" y="56" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="1.6">LAWYER</text><text x="317" y="76" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Lisa</text></g>
-<g><rect x="718" y="30" width="130" height="62" rx="14" fill="url(#cGold)" stroke="rgba(217,146,98,.4)"/><text x="783" y="56" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="1.6">LAWYER</text><text x="783" y="76" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Lidia</text></g>
-<rect x="50" y="170" width="262" height="168" rx="18" fill="url(#cGold)" stroke="rgba(217,146,98,.35)" stroke-width="1"/>
-<text x="181" y="176" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="2.5">SECURE FOUNDATION</text>
-<rect x="62" y="188" width="112" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
-<text x="120" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">OpenClaw</text>
-<text x="120" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Agent framework</text>
-<rect x="186" y="188" width="112" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
-<text x="251" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Microsoft</text>
-<text x="251" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Private cloud</text>
-<text x="181" y="282" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Confidential · No training · Data controlled</text>
-<text x="181" y="300" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Zero-retention options available</text>
-<rect x="788" y="170" width="262" height="168" rx="18" fill="url(#cBlue)" stroke="rgba(91,130,152,.35)" stroke-width="1"/>
-<text x="919" y="176" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">MODEL FLEXIBILITY</text>
-<rect x="798" y="188" width="88" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
-<text x="838" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">OpenAI</text><text x="838" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">GPT-class</text>
-<rect x="896" y="188" width="88" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
-<text x="934" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Anthropic</text>
-<text x="934" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Claude</text>
-<rect x="994" y="188" width="56" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
-<text x="1020" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Google</text>
-<text x="1020" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Gemini</text>
-<text x="919" y="282" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Swap models without rebuilding context</text>
-<text x="919" y="300" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">No lock-in by design</text>
-<rect x="178" y="378" width="244" height="58" rx="14" fill="rgba(217,146,98,.12)" stroke="rgba(217,146,98,.4)"/>
-<text x="300" y="398" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="2.5">MATTER MEMORY</text>
-<text x="300" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">Active matter context</text>
-<text x="300" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">People · deadlines · history</text>
-<rect x="452" y="378" width="196" height="58" rx="14" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
-<text x="550" y="398" text-anchor="middle" font-size="10" fill="rgba(246,243,236,.65)" letter-spacing="2.5">LAWYER MEMORY</text>
-<text x="550" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">Style &amp; judgment</text>
-<text x="550" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Preferences · patterns</text>
-<rect x="645" y="378" width="130" height="58" rx="14" fill="rgba(91,130,152,.12)" stroke="rgba(91,130,152,.4)"/>
-<text x="710" y="398" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">FIRM PROCESS</text>
-<text x="710" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">How work moves</text>
-<text x="710" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Standards · confidentiality</text>
-<text x="919" y="392" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">LEGAL INTELLIGENCE</text>
-<rect x="796" y="402" width="140" height="32" rx="9" fill="rgba(217,146,98,.16)" stroke="rgba(217,146,98,.4)"/>
-<text x="866" y="420" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d99262">Trademark APIs</text><text x="866" y="433" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.55)">Pilot · live registry access</text>
-<rect x="948" y="402" width="100" height="32" rx="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
-<text x="998" y="420" text-anchor="middle" font-size="10.5" fill="#f6f3ec">Deep Skills</text><text x="998" y="433" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.55)">Legal patterns</text>
-<text x="919" y="452" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Memory-aware · Context-aware · Firm-shaped</text>
+
+<!-- TOP: Lawyers -->
+<g>
+<rect x="295" y="22" width="130" height="62" rx="14" fill="url(#cGold)" stroke="rgba(217,146,98,.4)"/>
+<text x="360" y="48" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="1.6">LAWYER</text>
+<text x="360" y="68" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Lisa</text>
+</g>
+<g>
+<rect x="675" y="22" width="130" height="62" rx="14" fill="url(#cGold)" stroke="rgba(217,146,98,.4)"/>
+<text x="740" y="48" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="1.6">LAWYER</text>
+<text x="740" y="68" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Lidia</text>
+</g>
+
+<!-- MIDDLE-LEFT: Secure Foundation -->
+<rect x="40" y="152" width="300" height="170" rx="20" fill="url(#cGold)" stroke="rgba(217,146,98,.35)"/>
+<text x="190" y="174" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="2.5">SECURE FOUNDATION</text>
+<rect x="56" y="190" width="130" height="56" rx="11" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="121" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">OpenClaw</text>
+<text x="121" y="230" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Agent framework</text>
+<rect x="194" y="190" width="130" height="56" rx="11" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="259" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Microsoft</text>
+<text x="259" y="230" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Private cloud</text>
+<text x="190" y="278" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Confidential · No training · Data controlled</text>
+<text x="190" y="298" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Zero-retention options available</text>
+
+<!-- MIDDLE-RIGHT: Model Flexibility -->
+<rect x="760" y="152" width="300" height="170" rx="20" fill="url(#cBlue)" stroke="rgba(91,130,152,.35)"/>
+<text x="910" y="174" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">MODEL FLEXIBILITY</text>
+<rect x="776" y="190" width="86" height="56" rx="11" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="819" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">OpenAI</text>
+<text x="819" y="230" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">GPT-class</text>
+<rect x="870" y="190" width="86" height="56" rx="11" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="913" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Anthropic</text>
+<text x="913" y="230" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Claude</text>
+<rect x="964" y="190" width="80" height="56" rx="11" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="1004" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Google</text>
+<text x="1004" y="230" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Gemini</text>
+<text x="910" y="278" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Swap models without rebuilding context</text>
+<text x="910" y="298" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">No lock-in by design</text>
+
+<!-- BOTTOM: Firm-owned memory band (4 cards, no overlap) -->
+<rect x="40" y="358" width="1020" height="120" rx="18" fill="rgba(217,146,98,.04)" stroke="rgba(217,146,98,.18)"/>
+<text x="550" y="378" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="3">FIRM-OWNED MEMORY LAYER</text>
+
+<rect x="56" y="390" width="240" height="76" rx="12" fill="rgba(217,146,98,.10)" stroke="rgba(217,146,98,.32)"/>
+<text x="176" y="410" text-anchor="middle" font-size="9.5" fill="#d99262" letter-spacing="2">MATTER MEMORY</text>
+<text x="176" y="430" text-anchor="middle" font-size="13" font-family="Cormorant Garamond, serif" fill="#f6f3ec">Active matter context</text>
+<text x="176" y="450" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">People · deadlines · history</text>
+
+<rect x="306" y="390" width="240" height="76" rx="12" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.10)"/>
+<text x="426" y="410" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="2">LAWYER MEMORY</text>
+<text x="426" y="430" text-anchor="middle" font-size="13" font-family="Cormorant Garamond, serif" fill="#f6f3ec">Style &amp; judgment</text>
+<text x="426" y="450" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Preferences · patterns</text>
+
+<rect x="556" y="390" width="240" height="76" rx="12" fill="rgba(91,130,152,.10)" stroke="rgba(91,130,152,.32)"/>
+<text x="676" y="410" text-anchor="middle" font-size="9.5" fill="#5b8298" letter-spacing="2">FIRM PROCESS</text>
+<text x="676" y="430" text-anchor="middle" font-size="13" font-family="Cormorant Garamond, serif" fill="#f6f3ec">How work moves</text>
+<text x="676" y="450" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Standards · confidentiality</text>
+
+<rect x="806" y="390" width="240" height="76" rx="12" fill="rgba(91,130,152,.10)" stroke="rgba(91,130,152,.32)"/>
+<text x="926" y="410" text-anchor="middle" font-size="9.5" fill="#5b8298" letter-spacing="2">LEGAL INTELLIGENCE</text>
+<text x="926" y="430" text-anchor="middle" font-size="13" font-family="Cormorant Garamond, serif" fill="#f6f3ec">Live registry · skills</text>
+<text x="926" y="450" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Trademark APIs · patterns</text>
 </svg>
 
 <!-- CHANGE #9B: MOBILE PORTRAIT SVG — viewBox 380x540, vertical layout -->
