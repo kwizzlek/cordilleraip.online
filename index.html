@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5,viewport-fit=cover">
 <meta name="theme-color" content="#0c1a2a">
 <title>Cordillera IP · Venture and innovate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +18,27 @@
   line-gap-override: 0%;
   size-adjust: 99%;
 }
+
+/* ── Diagram expand overlay ── */
+.diag-expand-btn{display:none;position:absolute;bottom:8px;right:8px;
+  background:rgba(18,22,34,.75);color:#f6f3ec;border:1px solid rgba(246,243,236,.22);
+  border-radius:6px;padding:5px 11px 5px 8px;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;cursor:pointer;backdrop-filter:blur(6px);z-index:10;
+  font-family:var(--sans);align-items:center;gap:5px}
+.diag-expand-btn:active{background:rgba(18,22,34,.95)}
+.diag-overlay{display:none;position:fixed;inset:0;background:rgba(10,12,18,.96);z-index:200;
+  flex-direction:column;align-items:flex-start;justify-content:flex-start;
+  overflow:auto;touch-action:pan-x pan-y pinch-zoom;-webkit-overflow-scrolling:touch}
+.diag-overlay.open{display:flex}
+.diag-overlay-inner{padding:56px 12px 80px;min-width:680px;width:155vw}
+.diag-overlay-inner svg{width:100%;height:auto;display:block}
+.diag-overlay-close{position:fixed;top:12px;right:12px;background:rgba(246,243,236,.12);
+  color:#f6f3ec;border:1px solid rgba(246,243,236,.25);border-radius:50%;width:40px;height:40px;
+  font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:201}
+.diag-overlay-hint{position:fixed;bottom:20px;left:0;right:0;text-align:center;
+  color:rgba(246,243,236,.4);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  pointer-events:none}
+@media (max-width:640px){.diag-expand-btn{display:flex}}
 </style>
 <style>
 :root{
@@ -180,10 +201,10 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
   .brand{font-size:1rem;gap:.5rem}
   .head .right{font-size:.6rem;letter-spacing:.14em;gap:.5rem}
   .head .right .num{font-size:.88rem}
-  h1.display{font-size:clamp(1.7rem,8.5vw,2.4rem)}
-  h2.display{font-size:clamp(1.3rem,6.8vw,1.85rem)}
+  h1.display{font-size:clamp(2.4rem,12vw,3.2rem)}
+  h2.display{font-size:clamp(1.7rem,9vw,2.4rem)}
   .lede{font-size:.92rem;line-height:1.45}
-  .statement{font-size:1rem;line-height:1.4}
+  .statement{font-size:clamp(1.05rem,3.8vw,1.35rem);line-height:1.4}
   .pillars{grid-template-columns:1fr}
   .pillar{border-right:none;padding:.6rem 0}
   .pillar:not(:last-child){border-bottom:1px solid var(--rule)}
@@ -210,9 +231,10 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
   .count{font-size:.75rem;min-width:30px}
   .dot{width:6px;height:6px}
   .foot{display:none}
-  /* Slides 1 & 6: height:100% + space-between pins heading top, quote/CTA bottom */
-  .closer-grid{gap:1rem;height:100%;justify-content:space-between}
-  .cover-grid{gap:1rem;height:100%;justify-content:space-between}
+  /* Slides 1 & 6: first child at top (margin-bottom:auto), rest at bottom */
+  .closer-grid{gap:1.4rem;height:100%;justify-content:flex-start}
+  .cover-grid{gap:1.4rem;height:100%;justify-content:flex-start}
+  .cover-grid > *:first-child,.closer-grid > *:first-child{margin-bottom:auto}
   /* CHANGE #7: swipe hint visible on mobile */
   .swipe-hint{
     display:flex;
@@ -477,10 +499,10 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <text x="550" y="398" text-anchor="middle" font-size="10" fill="rgba(246,243,236,.65)" letter-spacing="2.5">LAWYER MEMORY</text>
 <text x="550" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">Style &amp; judgment</text>
 <text x="550" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Preferences · patterns</text>
-<rect x="678" y="378" width="244" height="58" rx="14" fill="rgba(91,130,152,.12)" stroke="rgba(91,130,152,.4)"/>
-<text x="800" y="398" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">FIRM PROCESS</text>
-<text x="800" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">How work moves</text>
-<text x="800" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Standards · confidentiality</text>
+<rect x="645" y="378" width="130" height="58" rx="14" fill="rgba(91,130,152,.12)" stroke="rgba(91,130,152,.4)"/>
+<text x="710" y="398" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">FIRM PROCESS</text>
+<text x="710" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">How work moves</text>
+<text x="710" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Standards · confidentiality</text>
 <text x="919" y="392" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">LEGAL INTELLIGENCE</text>
 <rect x="796" y="402" width="140" height="32" rx="9" fill="rgba(217,146,98,.16)" stroke="rgba(217,146,98,.4)"/>
 <text x="866" y="420" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d99262">Trademark APIs</text><text x="866" y="433" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.55)">Pilot · live registry access</text>
@@ -563,7 +585,11 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <text x="190" y="503" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="12" fill="rgba(246,243,236,.75)">Matter · Lawyer · Process</text>
 </svg>
 
-<p class="diag-foot reveal">The enduring asset isn't today's model — it's the <strong>firm-owned layer</strong> preserving context, continuity and confidentiality across every matter.</p>
+<button class="diag-expand-btn" id="diagExpandBtn" aria-label="Expand diagram">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+    Expand
+  </button>
+  <p class="diag-foot reveal">The enduring asset isn't today's model — it's the <strong>firm-owned layer</strong> preserving context, continuity and confidentiality across every matter.</p>
 </div>
 <div class="foot reveal" style="border:none"><span>Architecture</span><span>005</span></div>
 </div>
@@ -699,14 +725,17 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
   });
 
   // CHANGE #1: Touch swipe — horizontal AND vertical
-  var tx = 0, ty = 0, tt = 0;
+  var tx = 0, ty = 0, tt = 0, isPinching = false;
   document.addEventListener('touchstart', function(e){
+    if (e.touches.length > 1) { isPinching = true; return; }
+    isPinching = false;
     tx = e.touches[0].clientX;
     ty = e.touches[0].clientY;
     tt = Date.now();
   }, {passive:true});
 
   document.addEventListener('touchend', function(e){
+    if (isPinching) { isPinching = false; return; }
     var dx = e.changedTouches[0].clientX - tx;
     var dy = e.changedTouches[0].clientY - ty;
     var dt = Date.now() - tt;
@@ -730,7 +759,44 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
   // Initial reveal
   revealAll(document.querySelector('.slide.active'));
   sync();
+
+  // ── Diagram expand overlay ────────────────────────────────────────────────
+  (function(){
+    var btn = document.getElementById('diagExpandBtn');
+    var overlay = document.getElementById('diagOverlay');
+    var closeBtn = document.getElementById('diagOverlayClose');
+    var inner = document.getElementById('diagOverlayInner');
+    if (!btn || !overlay) return;
+    function openOverlay(){
+      var src = document.querySelector('.diag-svg');
+      if (!src) return;
+      inner.innerHTML = '';
+      var clone = src.cloneNode(true);
+      clone.removeAttribute('class');
+      clone.style.cssText = 'display:block;width:100%;height:auto;opacity:1;transform:none';
+      inner.appendChild(clone);
+      overlay.classList.add('open');
+      isPinching = true; // suspend deck swipe while overlay open
+    }
+    function closeOverlay(){
+      overlay.classList.remove('open');
+      inner.innerHTML = '';
+      isPinching = false;
+    }
+    btn.addEventListener('click', function(e){ e.stopPropagation(); openOverlay(); });
+    closeBtn.addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', function(e){
+      if (e.target === overlay) closeOverlay();
+    });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeOverlay(); });
+  })();
 })();
 </script>
+
+<div class="diag-overlay" id="diagOverlay" role="dialog" aria-label="Architecture diagram expanded">
+  <button class="diag-overlay-close" id="diagOverlayClose" aria-label="Close">&#x2715;</button>
+  <div class="diag-overlay-inner" id="diagOverlayInner"></div>
+  <p class="diag-overlay-hint">Scroll &amp; pinch to zoom &nbsp;·&nbsp; tap outside to close</p>
+</div>
 </body>
 </html>
