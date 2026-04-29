@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0c1a2a">
+<title>Cordillera IP · Venture and innovate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f3ec;
+  --paper-2:#ece6d6;
+  --ink:#0c1a2a;
+  --ink-2:#1d2c3f;
+  --alpine:#2a4f6b;
+  --alpine-2:#5b8298;
+  --slate:#7d8a99;
+  --copper:#b86a3d;
+  --copper-2:#d99262;
+  --rule:rgba(12,26,42,.12);
+  --rule-strong:rgba(12,26,42,.28);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:var(--ink);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;height:100dvh;width:100vw;overflow:hidden;overscroll-behavior:none}
+
+/* deck */
+.deck{position:relative;width:100vw;height:100dvh;overflow:hidden}
+.slide{position:absolute;inset:0;background:var(--paper);display:flex;opacity:0;transform:translateX(20px);transition:opacity .5s ease,transform .5s ease;pointer-events:none;overflow:hidden;will-change:opacity,transform}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
+.slide.dark{background:var(--ink);color:var(--paper)}
+.slide.dark .lede{color:rgba(246,243,236,.78)}
+.slide.dark .head{border-color:rgba(246,243,236,.18)}
+.slide.dark .foot{color:rgba(246,243,236,.5);border-color:rgba(246,243,236,.12)}
+.slide.dark .head .right .num{color:var(--paper)}
+.slide.dark .head .right span:not(.num){color:rgba(246,243,236,.55)}
+.slide.dark .statement{color:rgba(246,243,236,.85)}
+
+/* frame */
+.frame{width:100%;height:100%;padding:clamp(1rem,3vw,2.6rem) clamp(1rem,4vw,3.6rem);display:flex;flex-direction:column;position:relative;z-index:2;min-height:0}
+.head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule-strong);padding-bottom:.85rem;gap:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:var(--serif);font-size:clamp(1rem,1.5vw,1.4rem);letter-spacing:.02em;color:inherit}
+.brand .mark{width:clamp(24px,2.4vw,32px);height:clamp(24px,2.4vw,32px);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--copper)}
+.slide.dark .brand .mark{color:var(--copper-2)}
+.brand .mark svg{width:100%;height:100%}
+.brand .name{font-weight:500;white-space:nowrap}
+.brand .name em{font-style:italic;font-weight:300;color:var(--copper)}
+.slide.dark .brand .name em{color:var(--copper-2)}
+.head .right{display:flex;align-items:center;gap:clamp(.6rem,1.4vw,1.4rem);color:var(--slate);font-size:clamp(.6rem,.78vw,.74rem);letter-spacing:.18em;text-transform:uppercase;text-align:right}
+.head .right .num{font-family:var(--serif);font-size:clamp(.9rem,1.1vw,1.1rem);letter-spacing:.05em;color:var(--ink);text-transform:none}
+
+.body{flex:1;display:flex;align-items:center;padding:clamp(.8rem,2vw,1.8rem) 0;min-height:0;overflow:hidden}
+.foot{display:flex;justify-content:space-between;font-size:clamp(.58rem,.7vw,.72rem);letter-spacing:.22em;text-transform:uppercase;color:var(--slate);border-top:1px solid var(--rule);padding-top:.7rem;gap:1rem}
+
+.kicker{display:inline-flex;align-items:center;gap:.55rem;letter-spacing:.26em;text-transform:uppercase;font-size:clamp(.62rem,.78vw,.74rem);color:var(--copper);font-weight:600}
+.kicker::before{content:'';width:20px;height:1px;background:var(--copper);flex-shrink:0}
+.slide.dark .kicker{color:var(--copper-2)}
+.slide.dark .kicker::before{background:var(--copper-2)}
+h1.display,h2.display{font-family:var(--serif);font-weight:400;letter-spacing:-.012em;line-height:.98;margin:0}
+h1.display{font-size:clamp(2.2rem,7vw,6.4rem)}
+h2.display{font-size:clamp(1.7rem,4.4vw,3.4rem);line-height:1.02}
+em.acc{color:var(--copper);font-style:italic;font-weight:400}
+em.alp{color:var(--alpine);font-style:italic;font-weight:400}
+.slide.dark em.acc{color:var(--copper-2)}
+.slide.dark em.alp{color:var(--alpine-2)}
+.lede{max-width:60ch;font-size:clamp(.92rem,1.15vw,1.15rem);line-height:1.5;color:var(--ink-2);font-weight:400;margin:0}
+.statement{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink-2);font-size:clamp(1.05rem,1.6vw,1.5rem);line-height:1.32;max-width:64ch;margin:0}
+
+/* COVER */
+.cover-grid{display:grid;grid-template-columns:1.25fr .85fr;gap:clamp(1.2rem,3vw,2.6rem);height:100%;align-items:end;width:100%}
+.cover-grid > .right-col{display:flex;flex-direction:column;justify-content:flex-end;gap:1rem}
+.byline{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--rule-strong);padding-top:.7rem;font-size:clamp(.66rem,.78vw,.76rem);letter-spacing:.18em;text-transform:uppercase;color:var(--slate);gap:1rem}
+
+/* CONTRAST */
+.contrast-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule-strong);margin-top:clamp(.9rem,1.8vw,1.4rem);width:100%}
+.contrast-cell{padding:clamp(.9rem,1.5vw,1.3rem);border-right:1px solid var(--rule)}
+.contrast-cell:last-child{border-right:none}
+.contrast-cell .lab{font-size:clamp(.6rem,.72vw,.7rem);letter-spacing:.22em;text-transform:uppercase;color:var(--slate);font-weight:500}
+.contrast-cell .pair{display:flex;align-items:baseline;gap:.5rem;margin:.6rem 0;font-family:var(--serif);font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:500;line-height:1;flex-wrap:wrap}
+.contrast-cell .pair .from{color:var(--ink-2)}
+.contrast-cell .pair .arr{color:var(--copper)}
+.contrast-cell .pair .to{color:var(--copper);font-style:italic;font-weight:500}
+.contrast-cell p{margin:0;color:var(--ink-2);font-size:clamp(.85rem,1vw,.94rem);line-height:1.5}
+
+/* PILLARS */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--rule-strong);margin-top:clamp(.9rem,1.8vw,1.4rem);width:100%}
+.pillar{padding:clamp(.9rem,1.5vw,1.3rem);border-right:1px solid var(--rule)}
+.pillar:last-child{border-right:none}
+.pillar .num{font-family:var(--serif);font-size:clamp(.95rem,1.15vw,1.1rem);color:var(--copper)}
+.pillar h5{margin:.35rem 0 .5rem;font-family:var(--serif);font-size:clamp(1.15rem,1.7vw,1.5rem);font-weight:500;letter-spacing:-.005em}
+.pillar p{margin:0;color:var(--ink-2);font-size:clamp(.82rem,.95vw,.9rem);line-height:1.45}
+
+/* TWIN */
+.twin{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:clamp(.9rem,1.8vw,1.4rem);border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong);width:100%}
+.twin .card{padding:clamp(1rem,1.6vw,1.5rem);border-right:1px solid var(--rule)}
+.twin .card:last-child{border-right:none;background:var(--paper-2)}
+.twin .card .lab{font-size:clamp(.6rem,.72vw,.7rem);letter-spacing:.22em;text-transform:uppercase;color:var(--slate)}
+.twin .card h3{margin:.4rem 0 .55rem;font-family:var(--serif);font-size:clamp(1.4rem,2.2vw,1.95rem);font-weight:500;letter-spacing:-.005em}
+.twin .card p{margin:0;color:var(--ink-2);font-size:clamp(.88rem,1.05vw,.98rem);line-height:1.5}
+
+/* DIAGRAM */
+.diag-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;flex:1;min-height:0;gap:.4rem}
+.diag-head{text-align:center;flex-shrink:0}
+.diag-svg{width:min(1140px,96%);height:auto;max-height:62vh;flex:1 1 auto;min-height:0}
+.diag-foot{text-align:center;color:rgba(246,243,236,.65);font-size:clamp(.78rem,.95vw,.92rem);max-width:64ch;line-height:1.45;flex-shrink:0;padding:0 .5rem}
+.diag-foot strong{color:var(--copper-2)}
+
+/* CLOSER */
+.closer-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(1.2rem,3vw,2.6rem);align-items:center;height:100%;width:100%}
+.callout{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,1.7vw,1.55rem);line-height:1.32;border-left:3px solid var(--copper);padding-left:1.1rem;color:var(--ink-2);font-weight:400;margin:0}
+
+/* nav (bottom pill) */
+.nav{position:fixed;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:rgba(246,243,236,.92);border:1px solid var(--rule-strong);border-radius:40px;padding:6px 14px;z-index:50;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.nav button{width:34px;height:34px;border-radius:50%;border:none;background:transparent;color:var(--copper);font-size:1.2rem;cursor:pointer;font-family:var(--serif);line-height:1;padding:0;display:flex;align-items:center;justify-content:center}
+.nav button:active{background:rgba(184,106,61,.12)}
+.dots{display:flex;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--rule-strong);cursor:pointer;transition:all .2s;border:none;padding:0}
+.dot.active{background:var(--copper);transform:scale(1.4)}
+.count{color:var(--slate);font-size:.7rem;min-width:32px;text-align:center;font-variant-numeric:tabular-nums}
+
+.reveal{opacity:0;transform:translateY(8px)}
+.slide:not(.active) .reveal{opacity:0;transform:translateY(8px)}
+
+/* ===== TABLET PORTRAIT (560-860px) ===== */
+@media (max-width:860px){
+  .frame{padding:clamp(1rem,4vw,1.6rem) clamp(1rem,4vw,1.6rem)}
+  h1.display{font-size:clamp(2rem,7.8vw,3.2rem)}
+  h2.display{font-size:clamp(1.5rem,5.6vw,2.4rem)}
+  .cover-grid,.closer-grid{display:flex;flex-direction:column;justify-content:space-between;gap:1.2rem;align-items:stretch;height:100%}
+  .cover-grid > .right-col{justify-content:flex-start}
+  .contrast-grid{grid-template-columns:1fr;border-top:1px solid var(--rule-strong)}
+  .contrast-cell{border-right:none;border-bottom:1px solid var(--rule);padding:.85rem .2rem}
+  .contrast-cell:last-child{border-bottom:none}
+  .pillars{grid-template-columns:1fr 1fr}
+  .pillar{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:.85rem .9rem}
+  .pillar:nth-child(2n){border-right:none}
+  .pillar:nth-last-child(-n+2){border-bottom:none}
+  .twin{grid-template-columns:1fr}
+  .twin .card{border-right:none;border-bottom:1px solid var(--rule);padding:.95rem 1rem}
+  .twin .card:last-child{border-bottom:none}
+  .diag-svg{max-height:60vh;width:100%}
+  .body{padding:.6rem 0;align-items:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .nav{padding:5px 10px;gap:8px}
+  .nav button{width:30px;height:30px;font-size:1.05rem}
+  .head .right .label-hide{display:none}
+}
+
+/* ===== PHONE (max 560px) ===== */
+@media (max-width:560px){
+  .frame{padding:.85rem .85rem 4.4rem}
+  .head{padding-bottom:.65rem}
+  .brand{font-size:1rem;gap:.5rem}
+  .head .right{font-size:.6rem;letter-spacing:.14em;gap:.5rem}
+  .head .right .num{font-size:.88rem}
+  h1.display{font-size:clamp(1.7rem,8.5vw,2.4rem)}
+  h2.display{font-size:clamp(1.3rem,6.8vw,1.85rem)}
+  .lede{font-size:.92rem;line-height:1.45}
+  .statement{font-size:1rem;line-height:1.4}
+  .pillars{grid-template-columns:1fr}
+  .pillar{border-right:none;padding:.7rem 0}
+  .pillar:not(:last-child){border-bottom:1px solid var(--rule)}
+  .pillar:nth-last-child(-n+2){border-bottom:1px solid var(--rule)}
+  .pillar:last-child{border-bottom:none}
+  .contrast-cell{padding:.7rem .2rem}
+  .contrast-cell .pair{font-size:1.4rem}
+  .twin .card{padding:.85rem .9rem}
+  .twin .card h3{font-size:1.4rem}
+  .body{padding:.4rem 0}
+  .diag-svg{max-height:50vh}
+  .diag-foot{font-size:.78rem}
+  .kicker{font-size:.62rem;letter-spacing:.2em}
+  .nav{padding:4px 10px;border-radius:30px}
+  .nav button{width:28px;height:28px}
+  .count{font-size:.65rem;min-width:28px}
+  .dot{width:6px;height:6px}
+  .foot{display:none}
+  .closer-grid{gap:.9rem}
+  .cover-grid{gap:.9rem}
+}
+
+/* short viewport (landscape phone) */
+@media (max-height:480px) and (orientation:landscape){
+  .frame{padding:.6rem 1rem 3.6rem}
+  .head{padding-bottom:.4rem}
+  .body{padding:.3rem 0}
+  h1.display{font-size:clamp(1.6rem,5vw,2.4rem)}
+  h2.display{font-size:clamp(1.3rem,4vw,1.9rem)}
+  .foot{display:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="cord-mark" viewBox="0 0 64 64">
+<path d="M2 50 L18 22 L26 36 L36 14 L48 32 L62 50 Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M22 30 L26 36 L36 14 L40 22" fill="currentColor" opacity=".18"/>
+<circle cx="36" cy="14" r="2" fill="currentColor"/>
+</symbol>
+</defs>
+</svg>
+
+<div class="deck">
+
+<!-- 1 COVER -->
+<section class="slide active">
+<div class="frame">
+<div class="head reveal">
+<div class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em></span></div>
+<div class="right"><span class="label-hide">Venture &amp; innovate</span><span class="num">001 / 006</span></div>
+</div>
+<div class="body">
+<div class="cover-grid">
+<div>
+<div class="kicker reveal">INTA · Conference brief</div>
+<h1 class="display reveal" style="margin-top:1rem">Task AI is impressive.<br><em class="acc">Firm-context AI</em><br>is the real shift.</h1>
+</div>
+<div class="right-col">
+<p class="statement reveal">Use Claude positively — but place it correctly. The lasting difference isn’t one document at a time.</p>
+<div class="byline reveal" style="margin-top:1.4rem"><span>Cordillera IP</span><span>cordillera.ch</span></div>
+</div>
+</div>
+</div>
+<div class="foot reveal"><span>The firm-context layer</span><span>Cordillera IP · Lausanne</span></div>
+</div>
+</section>
+
+<!-- 2 CONTRAST -->
+<section class="slide">
+<div class="frame">
+<div class="head reveal">
+<div class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em></span></div>
+<div class="right"><span class="label-hide">The contrast</span><span class="num">002 / 006</span></div>
+</div>
+<div class="body" style="flex-direction:column;align-items:flex-start;justify-content:flex-start">
+<div class="kicker reveal">A sharper way to express the contrast</div>
+<h2 class="display reveal" style="margin-top:.6rem;max-width:24ch">Three axes that sound true to lawyers.</h2>
+<p class="lede reveal" style="margin-top:.7rem">Concrete, not marketing — they map to actual legal work.</p>
+<div class="contrast-grid reveal">
+<div class="contrast-cell">
+<div class="lab">The starting point</div>
+<div class="pair"><span class="from">Prompt</span><span class="arr">→</span><span class="to">Context</span></div>
+<p>Useful when you bring the question. Transformative when the system already knows the matter, the people, and what came before.</p>
+</div>
+<div class="contrast-cell">
+<div class="lab">The unit of value</div>
+<div class="pair"><span class="from">Output</span><span class="arr">→</span><span class="to">Delivery</span></div>
+<p>Drafts and summaries are table stakes. The advantage is moving work between lawyer, matter, timing, and client need.</p>
+</div>
+<div class="contrast-cell">
+<div class="lab">The centre of gravity</div>
+<div class="pair"><span class="from">Model</span><span class="arr">→</span><span class="to">Process</span></div>
+<p>Which tool is best today is the wrong long question. How does the firm keep its context as tools change is the durable one.</p>
+</div>
+</div>
+<p class="statement reveal" style="margin-top:1.4rem">Today’s AI is very good at the visible task. The next frontier is the invisible context around it.</p>
+</div>
+<div class="foot reveal"><span>Cordillera IP</span><span>The contrast</span></div>
+</div>
+</section>
+
+<!-- 3 PILLARS -->
+<section class="slide">
+<div class="frame">
+<div class="head reveal">
+<div class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em></span></div>
+<div class="right"><span class="label-hide">In practice</span><span class="num">003 / 006</span></div>
+</div>
+<div class="body" style="flex-direction:column;align-items:flex-start;justify-content:flex-start">
+<div class="kicker reveal">For clients · in plain language</div>
+<h2 class="display reveal" style="margin-top:.6rem;max-width:24ch">What this means in practice.</h2>
+<p class="lede reveal" style="margin-top:.7rem">When the conversation goes deeper, four pillars to anchor on.</p>
+<div class="pillars reveal">
+<div class="pillar"><div class="num">01</div><h5>Continuity</h5><p>The system isn’t re-briefed from scratch. Less repetition, more momentum on live matters.</p></div>
+<div class="pillar"><div class="num">02</div><h5>Coordination</h5><p>The right person sees the right thing at the right stage — not just better drafting.</p></div>
+<div class="pillar"><div class="num">03</div><h5>Density</h5><p>Less time lost to admin and handoffs. More of the client’s spend goes into legal judgment.</p></div>
+<div class="pillar"><div class="num">04</div><h5>Adaptability</h5><p>A specialist firm redesigns process faster than one carrying committees and overhead.</p></div>
+</div>
+<p class="statement reveal" style="margin-top:1.4rem">Clients aren’t paying for more software. They’re getting more concentrated legal value because less effort is wasted around the edges.</p>
+</div>
+<div class="foot reveal"><span>Cordillera IP</span><span>003 of 006</span></div>
+</div>
+</section>
+
+<!-- 4 TWIN -->
+<section class="slide">
+<div class="frame">
+<div class="head reveal">
+<div class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em></span></div>
+<div class="right"><span class="label-hide">Digital twinning</span><span class="num">004 / 006</span></div>
+</div>
+<div class="body" style="flex-direction:column;align-items:flex-start;justify-content:flex-start">
+<div class="kicker reveal">Digital twinning · in lawyer language</div>
+<h2 class="display reveal" style="margin-top:.6rem;max-width:32ch">Not a robot lawyer — a working <em class="alp">mirror</em> of the firm.</h2>
+<p class="lede reveal" style="margin-top:.7rem">What matters, what standards apply, what is pending, how work should move.</p>
+<div class="twin reveal">
+<div class="card">
+<span class="lab">Layer one</span>
+<h3>The Individual Twin</h3>
+<p>A lawyer’s style, priorities, recurring judgment patterns, and current workload. Reduces re-explaining, missed follow-up, and fragmented working memory.</p>
+</div>
+<div class="card">
+<span class="lab">Layer two</span>
+<h3>The Firm Twin</h3>
+<p>The shared layer — matter status, team coordination, client expectations, confidentiality choices, and the firm’s way of delivering specialist work.</p>
+</div>
+</div>
+<p class="statement reveal" style="margin-top:1.4rem">Building the firm’s process and context layer — not betting everything on one model.</p>
+</div>
+<div class="foot reveal"><span>Cordillera IP</span><span>004</span></div>
+</div>
+</section>
+
+<!-- 5 ARCHITECTURE (DARK) -->
+<section class="slide dark">
+<div class="frame">
+<div class="head reveal">
+<div class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em></span></div>
+<div class="right"><span class="label-hide">Architecture</span><span class="num">005 / 006</span></div>
+</div>
+<div class="diag-stage">
+<div class="diag-head">
+<div class="kicker reveal">Architecture · how it works</div>
+<h2 class="display reveal" style="margin-top:.4rem">The private AI layer <em class="acc">behind the firm</em>.</h2>
+</div>
+<svg class="diag-svg reveal" viewBox="0 0 1100 480" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+<defs>
+<radialGradient id="cCore"><stop offset="0%" stop-color="#d99262" stop-opacity=".26"/><stop offset="100%" stop-color="#5b8298" stop-opacity=".06"/></radialGradient>
+<radialGradient id="cGold"><stop offset="0%" stop-color="#d99262" stop-opacity=".30"/><stop offset="100%" stop-color="#d99262" stop-opacity=".06"/></radialGradient>
+<radialGradient id="cBlue"><stop offset="0%" stop-color="#5b8298" stop-opacity=".30"/><stop offset="100%" stop-color="#5b8298" stop-opacity=".06"/></radialGradient>
+</defs>
+<path d="M 440 240 H 320" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".7"/>
+<path d="M 660 240 H 780" stroke="#5b8298" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".7"/>
+<path d="M 520 298 C 480 360 380 400 300 420" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".5"/>
+<path d="M 580 298 C 620 360 720 400 800 420" stroke="#5b8298" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".5"/>
+<path d="M 500 182 C 430 130 350 90 310 72" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".5"/>
+<path d="M 600 182 C 670 130 750 90 790 72" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".5"/>
+<circle cx="550" cy="240" r="105" fill="none" stroke="#d99262" stroke-width="1" stroke-opacity=".3"/>
+<circle cx="550" cy="240" r="88" fill="url(#cCore)"/>
+<circle cx="550" cy="240" r="88" fill="none" stroke="rgba(217,146,98,.4)"/>
+<circle cx="550" cy="240" r="60" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.12)"/>
+<text x="550" y="226" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Cordillera</text>
+<text x="550" y="244" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#d99262">AI Operating</text>
+<text x="550" y="262" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Layer</text>
+<g><rect x="252" y="30" width="130" height="62" rx="14" fill="url(#cGold)" stroke="rgba(217,146,98,.4)"/><text x="317" y="56" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="1.6">LAWYER</text><text x="317" y="76" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Lisa</text></g>
+<g><rect x="718" y="30" width="130" height="62" rx="14" fill="url(#cGold)" stroke="rgba(217,146,98,.4)"/><text x="783" y="56" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="1.6">LAWYER</text><text x="783" y="76" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Lidia</text></g>
+<rect x="42" y="152" width="278" height="178" rx="20" fill="rgba(217,146,98,.04)" stroke="rgba(217,146,98,.18)"/>
+<text x="181" y="176" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="2.5">SECURE FOUNDATION</text>
+<rect x="58" y="188" width="124" height="56" rx="13" fill="url(#cGold)" stroke="rgba(217,146,98,.35)"/>
+<text x="120" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">OpenClaw</text>
+<text x="120" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Agent framework</text>
+<rect x="198" y="188" width="106" height="56" rx="13" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)"/>
+<text x="251" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Microsoft</text>
+<text x="251" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Private cloud</text>
+<rect x="58" y="258" width="246" height="56" rx="13" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)"/>
+<text x="181" y="282" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Confidential · No training · Data controlled</text>
+<text x="181" y="300" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Zero-retention options available</text>
+<rect x="780" y="152" width="278" height="178" rx="20" fill="rgba(91,130,152,.05)" stroke="rgba(91,130,152,.22)"/>
+<text x="919" y="176" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">MODEL FLEXIBILITY</text>
+<rect x="796" y="188" width="84" height="56" rx="13" fill="url(#cBlue)" stroke="rgba(91,130,152,.3)"/>
+<text x="838" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">OpenAI</text><text x="838" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">GPT-class</text>
+<rect x="892" y="188" width="84" height="56" rx="13" fill="url(#cBlue)" stroke="rgba(91,130,152,.3)"/>
+<text x="934" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Anthropic</text><text x="934" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Claude</text>
+<rect x="988" y="188" width="64" height="56" rx="13" fill="url(#cBlue)" stroke="rgba(91,130,152,.3)"/>
+<text x="1020" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Google</text><text x="1020" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Gemini</text>
+<rect x="796" y="258" width="256" height="56" rx="13" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)"/>
+<text x="924" y="282" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Best model for the task — we choose</text>
+<text x="924" y="300" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Strategy outlasts any single provider</text>
+<rect x="42" y="370" width="278" height="96" rx="20" fill="rgba(217,146,98,.04)" stroke="rgba(217,146,98,.16)"/>
+<text x="181" y="392" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="2.5">LAWYER CHANNELS</text>
+<rect x="58" y="402" width="72" height="32" rx="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/><text x="94" y="423" text-anchor="middle" font-size="10.5" fill="#f6f3ec">WhatsApp</text>
+<rect x="140" y="402" width="56" height="32" rx="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/><text x="168" y="423" text-anchor="middle" font-size="10.5" fill="#f6f3ec">Email</text>
+<rect x="206" y="402" width="56" height="32" rx="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/><text x="234" y="423" text-anchor="middle" font-size="10.5" fill="#f6f3ec">Teams</text>
+<text x="181" y="452" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">OneDrive · Google Drive · SharePoint</text>
+<rect x="780" y="370" width="278" height="96" rx="20" fill="rgba(91,130,152,.05)" stroke="rgba(91,130,152,.2)"/>
+<text x="919" y="392" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">LEGAL INTELLIGENCE</text>
+<rect x="796" y="402" width="140" height="32" rx="9" fill="rgba(217,146,98,.16)" stroke="rgba(217,146,98,.4)"/>
+<text x="866" y="420" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d99262">Trademark APIs</text><text x="866" y="433" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.55)">Pilot · live registry access</text>
+<rect x="948" y="402" width="100" height="32" rx="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="998" y="420" text-anchor="middle" font-size="10.5" fill="#f6f3ec">Deep Skills</text><text x="998" y="433" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.55)">Legal patterns</text>
+<text x="919" y="452" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Memory-aware · Context-aware · Firm-shaped</text>
+</svg>
+<p class="diag-foot reveal">The enduring asset isn’t today’s model — it’s the <strong>firm-owned layer</strong> preserving context, continuity and confidentiality across every matter.</p>
+</div>
+<div class="foot reveal" style="border:none"><span>Architecture</span><span>005</span></div>
+</div>
+</section>
+
+<!-- 6 CLOSER -->
+<section class="slide">
+<div class="frame">
+<div class="head reveal">
+<div class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em></span></div>
+<div class="right"><span class="label-hide">End</span><span class="num">006 / 006</span></div>
+</div>
+<div class="body">
+<div class="closer-grid">
+<div>
+<div class="kicker reveal">In a sentence</div>
+<h1 class="display reveal" style="margin-top:.55rem">The model is the moment.<br><em class="acc">The firm’s context</em><br>is the asset.</h1>
+</div>
+<div>
+<p class="callout reveal">We don’t compete with Claude. We use it — inside a firm-centred process that can change as the market does.</p>
+<div class="byline reveal" style="margin-top:1.4rem"><span>Cordillera IP</span><span>cordillera.ch · Lausanne</span></div>
+</div>
+</div>
+</div>
+<div class="foot reveal"><span>Venture &amp; innovate</span><span>Cordillera IP</span></div>
+</div>
+</section>
+
+</div><!-- /deck -->
+
+<div class="nav" role="navigation" aria-label="Slides">
+<button id="prev" aria-label="Previous slide" type="button">‹</button>
+<div class="dots" id="dots"></div>
+<button id="next" aria-label="Next slide" type="button">›</button>
+<span class="count" id="count">1 / 6</span>
+</div>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var cur = 1;
+  var dotsEl = document.getElementById('dots');
+  var countEl = document.getElementById('count');
+  for (var i = 1; i <= total; i++) {
+    var d = document.createElement('button');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.setAttribute('aria-label', 'Go to slide ' + i);
+    d.type = 'button';
+    (function(n){ d.onclick = function(){ to(n); }; })(i);
+    dotsEl.appendChild(d);
+  }
+  function to(n){
+    if (n < 1) n = 1;
+    if (n > total) n = total;
+    if (n === cur) return;
+    var prev = document.querySelector('.slide.active');
+    var next = slides[n - 1];
+    if (prev) prev.classList.remove('active');
+    if (next) { next.classList.add('active'); revealAll(next); }
+    cur = n;
+    sync();
+  }
+  function go(d){ to(cur + d); }
+  function sync(){
+    var dots = document.querySelectorAll('.dot');
+    for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('active', i + 1 === cur);
+    countEl.textContent = cur + ' / ' + total;
+  }
+  function revealAll(s){
+    var els = s.querySelectorAll('.reveal');
+    els.forEach(function(el, i){
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(8px)';
+      void el.offsetHeight;
+      var dl = i * 0.05;
+      el.style.transition = 'opacity .4s ease ' + dl + 's, transform .4s ease ' + dl + 's';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+  }
+  document.getElementById('prev').onclick = function(){ go(-1); };
+  document.getElementById('next').onclick = function(){ go(1); };
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') { e.preventDefault(); to(1); }
+    if (e.key === 'End') { e.preventDefault(); to(total); }
+  });
+  // Touch swipe
+  var tx = 0, ty = 0, tt = 0;
+  document.addEventListener('touchstart', function(e){
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY; tt = Date.now();
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    var dt = Date.now() - tt;
+    if (dt < 600 && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      go(dx < 0 ? 1 : -1);
+    }
+  }, {passive:true});
+  // Initial reveal
+  revealAll(document.querySelector('.slide.active'));
+})();
+</script>
+</body>
+</html>
