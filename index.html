@@ -8,6 +8,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- CHANGE #12: Size-adjusted fallback to prevent font flash -->
+<style>
+@font-face {
+  font-family: 'Cormorant Garamond Fallback';
+  src: local('Georgia');
+  ascent-override: 91%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 99%;
+}
+</style>
 <style>
 :root{
   --paper:#f6f3ec;
@@ -21,7 +32,7 @@
   --copper-2:#d99262;
   --rule:rgba(12,26,42,.12);
   --rule-strong:rgba(12,26,42,.28);
-  --serif:'Cormorant Garamond',Georgia,serif;
+  --serif:'Cormorant Garamond','Cormorant Garamond Fallback',Georgia,serif;
   --sans:'Inter',system-ui,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -29,8 +40,9 @@ html,body{margin:0;background:var(--ink);color:var(--ink);font-family:var(--sans
 
 /* deck */
 .deck{position:relative;width:100vw;height:100dvh;overflow:hidden}
-.slide{position:absolute;inset:0;background:var(--paper);display:flex;opacity:0;transform:translateX(20px);transition:opacity .5s ease,transform .5s ease;pointer-events:none;overflow:hidden;will-change:opacity,transform}
-.slide.active{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
+/* CHANGE #2: Slides have no default transform (direction handled by JS) */
+.slide{position:absolute;inset:0;background:var(--paper);display:flex;opacity:0;pointer-events:none;overflow:hidden;will-change:opacity,transform}
+.slide.active{opacity:1;transform:translateX(0) !important;transition:opacity .5s ease,transform .5s ease;pointer-events:auto;z-index:2}
 .slide.dark{background:var(--ink);color:var(--paper)}
 .slide.dark .lede{color:rgba(246,243,236,.78)}
 .slide.dark .head{border-color:rgba(246,243,236,.18)}
@@ -105,6 +117,7 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 .diag-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;flex:1;min-height:0;gap:.4rem}
 .diag-head{text-align:center;flex-shrink:0}
 .diag-svg{width:min(1140px,96%);height:auto;max-height:62vh;flex:1 1 auto;min-height:0}
+.diag-svg-mobile{display:none}
 .diag-foot{text-align:center;color:rgba(246,243,236,.65);font-size:clamp(.78rem,.95vw,.92rem);max-width:64ch;line-height:1.45;flex-shrink:0;padding:0 .5rem}
 .diag-foot strong{color:var(--copper-2)}
 
@@ -112,14 +125,26 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 .closer-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(1.2rem,3vw,2.6rem);align-items:center;height:100%;width:100%}
 .callout{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,1.7vw,1.55rem);line-height:1.32;border-left:3px solid var(--copper);padding-left:1.1rem;color:var(--ink-2);font-weight:400;margin:0}
 
+/* CHANGE #8: Progress bar */
+.progress-bar{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(12,26,42,.15);z-index:100}
+.progress-fill{height:100%;background:var(--copper);transition:width .5s ease;width:16.67%}
+
 /* nav (bottom pill) */
-.nav{position:fixed;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:rgba(246,243,236,.92);border:1px solid var(--rule-strong);border-radius:40px;padding:6px 14px;z-index:50;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.nav button{width:34px;height:34px;border-radius:50%;border:none;background:transparent;color:var(--copper);font-size:1.2rem;cursor:pointer;font-family:var(--serif);line-height:1;padding:0;display:flex;align-items:center;justify-content:center}
-.nav button:active{background:rgba(184,106,61,.12)}
-.dots{display:flex;gap:6px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--rule-strong);cursor:pointer;transition:all .2s;border:none;padding:0}
-.dot.active{background:var(--copper);transform:scale(1.4)}
-.count{color:var(--slate);font-size:.7rem;min-width:32px;text-align:center;font-variant-numeric:tabular-nums}
+.nav{position:fixed;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:rgba(246,243,236,.96);border:1px solid var(--rule-strong);border-radius:40px;padding:6px 14px;z-index:50;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+/* CHANGE #4: nav buttons min 44px touch target */
+.nav button{width:44px;height:44px;border-radius:50%;border:none;background:transparent;color:var(--ink);font-size:1.3rem;cursor:pointer;font-family:var(--serif);line-height:1;padding:0;display:flex;align-items:center;justify-content:center;transition:background .15s ease,color .15s ease}
+.nav button:active{background:rgba(184,106,61,.15)}
+.nav button:hover{color:var(--copper)}
+.dots{display:flex;gap:10px;align-items:center}
+/* CHANGE #5: dots with proper sizing - visual dot inside larger tap area */
+.dot{width:32px;height:32px;border-radius:50%;background:transparent;cursor:pointer;transition:all .2s;border:none;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dot::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--rule-strong);transition:all .2s;display:block}
+.dot.active::after{background:var(--copper);transform:scale(1.4)}
+/* CHANGE #6: count contrast fixed — var(--ink) + weight 600 */
+.count{color:var(--ink);font-size:.78rem;font-weight:600;min-width:36px;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+/* CHANGE #7: Swipe hint */
+.swipe-hint{display:none}
 
 .reveal{opacity:0;transform:translateY(8px)}
 .slide:not(.active) .reveal{opacity:0;transform:translateY(8px)}
@@ -144,13 +169,13 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
   .diag-svg{max-height:60vh;width:100%}
   .body{padding:.6rem 0;align-items:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .nav{padding:5px 10px;gap:8px}
-  .nav button{width:30px;height:30px;font-size:1.05rem}
   .head .right .label-hide{display:none}
 }
 
 /* ===== PHONE (max 560px) ===== */
 @media (max-width:560px){
-  .frame{padding:.85rem .85rem 4.4rem}
+  /* CHANGE #10: safe area aware padding */
+  .frame{padding:.85rem .85rem 0 .85rem;padding-bottom:calc(4.4rem + env(safe-area-inset-bottom, 0px))}
   .head{padding-bottom:.65rem}
   .brand{font-size:1rem;gap:.5rem}
   .head .right{font-size:.6rem;letter-spacing:.14em;gap:.5rem}
@@ -160,39 +185,109 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
   .lede{font-size:.92rem;line-height:1.45}
   .statement{font-size:1rem;line-height:1.4}
   .pillars{grid-template-columns:1fr}
-  .pillar{border-right:none;padding:.7rem 0}
+  .pillar{border-right:none;padding:.6rem 0}
   .pillar:not(:last-child){border-bottom:1px solid var(--rule)}
+  .pillar h5{font-size:1.1rem;margin:.25rem 0 .3rem}
+  .pillar p{font-size:.8rem}
   .pillar:nth-last-child(-n+2){border-bottom:1px solid var(--rule)}
   .pillar:last-child{border-bottom:none}
   .contrast-cell{padding:.7rem .2rem}
   .contrast-cell .pair{font-size:1.4rem}
   .twin .card{padding:.85rem .9rem}
   .twin .card h3{font-size:1.4rem}
+  /* .body at mobile: keep default overflow:hidden from base rule, just adjust padding */
+  /* Slides 1&6 use align-items:center (default), content slides use inline flex-direction:column */
   .body{padding:.4rem 0}
-  .diag-svg{max-height:50vh}
+  /* CHANGE #9B: show mobile diagram, hide desktop */
+  .diag-svg{display:none !important}
+  .diag-svg-mobile{display:block !important;width:100%;height:auto;max-height:54vh;flex:1 1 auto;min-height:0}
   .diag-foot{font-size:.78rem}
   .kicker{font-size:.62rem;letter-spacing:.2em}
-  .nav{padding:4px 10px;border-radius:30px}
-  .nav button{width:28px;height:28px}
-  .count{font-size:.65rem;min-width:28px}
+  /* CHANGE #4/#5: nav sizing on mobile */
+  .nav{padding:4px 8px;border-radius:30px;gap:6px}
+  .nav button{width:44px;height:44px;font-size:1.2rem}
+  /* CHANGE #6: count visible on mobile with proper contrast */
+  .count{font-size:.75rem;min-width:30px}
   .dot{width:6px;height:6px}
   .foot{display:none}
-  .closer-grid{gap:.9rem}
-  .cover-grid{gap:.9rem}
+  /* Slides 1 & 6: height:100% + space-between pins heading top, quote/CTA bottom */
+  .closer-grid{gap:1rem;height:100%;justify-content:space-between}
+  .cover-grid{gap:1rem;height:100%;justify-content:space-between}
+  /* CHANGE #7: swipe hint visible on mobile */
+  .swipe-hint{
+    display:flex;
+    position:fixed;
+    bottom:72px;
+    left:50%;
+    transform:translateX(-50%);
+    align-items:center;
+    gap:5px;
+    color:rgba(12,26,42,.45);
+    font-size:.65rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    pointer-events:none;
+    animation:swipeHintAnim 3s ease forwards;
+    white-space:nowrap;
+    z-index:49;
+  }
+  @keyframes swipeHintAnim{
+    0%{opacity:0;transform:translateX(-40%)}
+    15%{opacity:1}
+    70%{opacity:.9;transform:translateX(-60%)}
+    100%{opacity:0;transform:translateX(-75%)}
+  }
+  /* Note A: slide 1 "swipe to explore" hint text */
+  .swipe-explore{display:block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);margin-top:1rem}
 }
 
-/* short viewport (landscape phone) */
-@media (max-height:480px) and (orientation:landscape){
-  .frame{padding:.6rem 1rem 3.6rem}
-  .head{padding-bottom:.4rem}
-  .body{padding:.3rem 0}
-  h1.display{font-size:clamp(1.6rem,5vw,2.4rem)}
-  h2.display{font-size:clamp(1.3rem,4vw,1.9rem)}
-  .foot{display:none}
+/* Diagram swap also at tablet portrait range */
+@media (max-width:640px){
+  .diag-svg{display:none !important}
+  .diag-svg-mobile{display:block !important;width:100%;height:auto;max-height:52vh}
+}
+
+/* landscape phone nudge — CHANGE #11 */
+@media (max-width:800px) and (orientation:landscape) and (max-height:500px){
+  .rotate-nudge{
+    display:flex;
+    position:fixed;
+    inset:0;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:.8rem;
+    background:var(--ink);
+    color:rgba(246,243,236,.6);
+    font-size:.72rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    z-index:200;
+  }
+}
+@media not ((max-width:800px) and (orientation:landscape) and (max-height:500px)){
+  .rotate-nudge{display:none}
 }
 </style>
 </head>
 <body>
+
+<!-- CHANGE #8: progress bar -->
+<div class="progress-bar" id="progressBar" aria-hidden="true">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<!-- CHANGE #11: landscape rotate nudge -->
+<div class="rotate-nudge" aria-hidden="true">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.466 7.5C15.643 4.237 13.952 2 12 2 9.239 2 7 6.477 7 12s2.239 10 5 10c.342 0 .677-.069 1-.2"/><path d="m15.194 13.707 3.814 1.021-1.021 3.814"/><path d="M19 9c.229 2.249-.223 4.817-1.176 7.196"/></svg>
+  <span>Rotate for best experience</span>
+</div>
+
+<!-- CHANGE #7: swipe hint -->
+<div class="swipe-hint" id="swipeHint" aria-hidden="true">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  <span>swipe</span>
+</div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
@@ -218,9 +313,11 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <div>
 <div class="kicker reveal">INTA · Conference brief</div>
 <h1 class="display reveal" style="margin-top:1rem">Task AI is impressive.<br><em class="acc">Firm-context AI</em><br>is the real shift.</h1>
+<!-- Note A: mobile swipe affordance -->
+<span class="swipe-explore reveal">Swipe to explore ›</span>
 </div>
 <div class="right-col">
-<p class="statement reveal">Use Claude positively — but place it correctly. The lasting difference isn’t one document at a time.</p>
+<p class="statement reveal">Use Claude positively — but place it correctly. The lasting difference isn't one document at a time.</p>
 <div class="byline reveal" style="margin-top:1.4rem"><span>Cordillera IP</span><span>cordillera.ch</span></div>
 </div>
 </div>
@@ -257,7 +354,7 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <p>Which tool is best today is the wrong long question. How does the firm keep its context as tools change is the durable one.</p>
 </div>
 </div>
-<p class="statement reveal" style="margin-top:1.4rem">Today’s AI is very good at the visible task. The next frontier is the invisible context around it.</p>
+<p class="statement reveal" style="margin-top:1.4rem">Today's AI is very good at the visible task. The next frontier is the invisible context around it.</p>
 </div>
 <div class="foot reveal"><span>Cordillera IP</span><span>The contrast</span></div>
 </div>
@@ -275,12 +372,12 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <h2 class="display reveal" style="margin-top:.6rem;max-width:24ch">What this means in practice.</h2>
 <p class="lede reveal" style="margin-top:.7rem">When the conversation goes deeper, four pillars to anchor on.</p>
 <div class="pillars reveal">
-<div class="pillar"><div class="num">01</div><h5>Continuity</h5><p>The system isn’t re-briefed from scratch. Less repetition, more momentum on live matters.</p></div>
+<div class="pillar"><div class="num">01</div><h5>Continuity</h5><p>The system isn't re-briefed from scratch. Less repetition, more momentum on live matters.</p></div>
 <div class="pillar"><div class="num">02</div><h5>Coordination</h5><p>The right person sees the right thing at the right stage — not just better drafting.</p></div>
-<div class="pillar"><div class="num">03</div><h5>Density</h5><p>Less time lost to admin and handoffs. More of the client’s spend goes into legal judgment.</p></div>
+<div class="pillar"><div class="num">03</div><h5>Density</h5><p>Less time lost to admin and handoffs. More of the client's spend goes into legal judgment.</p></div>
 <div class="pillar"><div class="num">04</div><h5>Adaptability</h5><p>A specialist firm redesigns process faster than one carrying committees and overhead.</p></div>
 </div>
-<p class="statement reveal" style="margin-top:1.4rem">Clients aren’t paying for more software. They’re getting more concentrated legal value because less effort is wasted around the edges.</p>
+<p class="statement reveal" style="margin-top:1.4rem">Clients aren't paying for more software. They're getting more concentrated legal value because less effort is wasted around the edges.</p>
 </div>
 <div class="foot reveal"><span>Cordillera IP</span><span>003 of 006</span></div>
 </div>
@@ -301,15 +398,15 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <div class="card">
 <span class="lab">Layer one</span>
 <h3>The Individual Twin</h3>
-<p>A lawyer’s style, priorities, recurring judgment patterns, and current workload. Reduces re-explaining, missed follow-up, and fragmented working memory.</p>
+<p>A lawyer's style, priorities, recurring judgment patterns, and current workload. Reduces re-explaining, missed follow-up, and fragmented working memory.</p>
 </div>
 <div class="card">
 <span class="lab">Layer two</span>
 <h3>The Firm Twin</h3>
-<p>The shared layer — matter status, team coordination, client expectations, confidentiality choices, and the firm’s way of delivering specialist work.</p>
+<p>The shared layer — matter status, team coordination, client expectations, confidentiality choices, and the firm's way of delivering specialist work.</p>
 </div>
 </div>
-<p class="statement reveal" style="margin-top:1.4rem">Building the firm’s process and context layer — not betting everything on one model.</p>
+<p class="statement reveal" style="margin-top:1.4rem">Building the firm's process and context layer — not betting everything on one model.</p>
 </div>
 <div class="foot reveal"><span>Cordillera IP</span><span>004</span></div>
 </div>
@@ -327,6 +424,8 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <div class="kicker reveal">Architecture · how it works</div>
 <h2 class="display reveal" style="margin-top:.4rem">The private AI layer <em class="acc">behind the firm</em>.</h2>
 </div>
+
+<!-- DESKTOP SVG (unchanged) -->
 <svg class="diag-svg reveal" viewBox="0 0 1100 480" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 <defs>
 <radialGradient id="cCore"><stop offset="0%" stop-color="#d99262" stop-opacity=".26"/><stop offset="100%" stop-color="#5b8298" stop-opacity=".06"/></radialGradient>
@@ -348,35 +447,40 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <text x="550" y="262" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Layer</text>
 <g><rect x="252" y="30" width="130" height="62" rx="14" fill="url(#cGold)" stroke="rgba(217,146,98,.4)"/><text x="317" y="56" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="1.6">LAWYER</text><text x="317" y="76" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Lisa</text></g>
 <g><rect x="718" y="30" width="130" height="62" rx="14" fill="url(#cGold)" stroke="rgba(217,146,98,.4)"/><text x="783" y="56" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.65)" letter-spacing="1.6">LAWYER</text><text x="783" y="76" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="16" fill="#f6f3ec">Lidia</text></g>
-<rect x="42" y="152" width="278" height="178" rx="20" fill="rgba(217,146,98,.04)" stroke="rgba(217,146,98,.18)"/>
+<rect x="50" y="170" width="262" height="168" rx="18" fill="url(#cGold)" stroke="rgba(217,146,98,.35)" stroke-width="1"/>
 <text x="181" y="176" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="2.5">SECURE FOUNDATION</text>
-<rect x="58" y="188" width="124" height="56" rx="13" fill="url(#cGold)" stroke="rgba(217,146,98,.35)"/>
+<rect x="62" y="188" width="112" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
 <text x="120" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">OpenClaw</text>
 <text x="120" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Agent framework</text>
-<rect x="198" y="188" width="106" height="56" rx="13" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)"/>
+<rect x="186" y="188" width="112" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
 <text x="251" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Microsoft</text>
 <text x="251" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Private cloud</text>
-<rect x="58" y="258" width="246" height="56" rx="13" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)"/>
 <text x="181" y="282" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Confidential · No training · Data controlled</text>
 <text x="181" y="300" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Zero-retention options available</text>
-<rect x="780" y="152" width="278" height="178" rx="20" fill="rgba(91,130,152,.05)" stroke="rgba(91,130,152,.22)"/>
+<rect x="788" y="170" width="262" height="168" rx="18" fill="url(#cBlue)" stroke="rgba(91,130,152,.35)" stroke-width="1"/>
 <text x="919" y="176" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">MODEL FLEXIBILITY</text>
-<rect x="796" y="188" width="84" height="56" rx="13" fill="url(#cBlue)" stroke="rgba(91,130,152,.3)"/>
+<rect x="798" y="188" width="88" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
 <text x="838" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">OpenAI</text><text x="838" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">GPT-class</text>
-<rect x="892" y="188" width="84" height="56" rx="13" fill="url(#cBlue)" stroke="rgba(91,130,152,.3)"/>
-<text x="934" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Anthropic</text><text x="934" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Claude</text>
-<rect x="988" y="188" width="64" height="56" rx="13" fill="url(#cBlue)" stroke="rgba(91,130,152,.3)"/>
-<text x="1020" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Google</text><text x="1020" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Gemini</text>
-<rect x="796" y="258" width="256" height="56" rx="13" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)"/>
-<text x="924" y="282" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Best model for the task — we choose</text>
-<text x="924" y="300" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Strategy outlasts any single provider</text>
-<rect x="42" y="370" width="278" height="96" rx="20" fill="rgba(217,146,98,.04)" stroke="rgba(217,146,98,.16)"/>
-<text x="181" y="392" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="2.5">LAWYER CHANNELS</text>
-<rect x="58" y="402" width="72" height="32" rx="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/><text x="94" y="423" text-anchor="middle" font-size="10.5" fill="#f6f3ec">WhatsApp</text>
-<rect x="140" y="402" width="56" height="32" rx="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/><text x="168" y="423" text-anchor="middle" font-size="10.5" fill="#f6f3ec">Email</text>
-<rect x="206" y="402" width="56" height="32" rx="9" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/><text x="234" y="423" text-anchor="middle" font-size="10.5" fill="#f6f3ec">Teams</text>
-<text x="181" y="452" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">OneDrive · Google Drive · SharePoint</text>
-<rect x="780" y="370" width="278" height="96" rx="20" fill="rgba(91,130,152,.05)" stroke="rgba(91,130,152,.2)"/>
+<rect x="896" y="188" width="88" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="934" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Anthropic</text>
+<text x="934" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Claude</text>
+<rect x="994" y="188" width="56" height="54" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="1020" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f3ec">Google</text>
+<text x="1020" y="228" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Gemini</text>
+<text x="919" y="282" text-anchor="middle" font-size="10.5" fill="rgba(246,243,236,.7)">Swap models without rebuilding context</text>
+<text x="919" y="300" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">No lock-in by design</text>
+<rect x="178" y="378" width="244" height="58" rx="14" fill="rgba(217,146,98,.12)" stroke="rgba(217,146,98,.4)"/>
+<text x="300" y="398" text-anchor="middle" font-size="10" fill="#d99262" letter-spacing="2.5">MATTER MEMORY</text>
+<text x="300" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">Active matter context</text>
+<text x="300" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">People · deadlines · history</text>
+<rect x="452" y="378" width="196" height="58" rx="14" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.10)"/>
+<text x="550" y="398" text-anchor="middle" font-size="10" fill="rgba(246,243,236,.65)" letter-spacing="2.5">LAWYER MEMORY</text>
+<text x="550" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">Style &amp; judgment</text>
+<text x="550" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Preferences · patterns</text>
+<rect x="678" y="378" width="244" height="58" rx="14" fill="rgba(91,130,152,.12)" stroke="rgba(91,130,152,.4)"/>
+<text x="800" y="398" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">FIRM PROCESS</text>
+<text x="800" y="416" text-anchor="middle" font-size="12" font-family="Cormorant Garamond, serif" fill="#f6f3ec">How work moves</text>
+<text x="800" y="432" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Standards · confidentiality</text>
 <text x="919" y="392" text-anchor="middle" font-size="10" fill="#5b8298" letter-spacing="2.5">LEGAL INTELLIGENCE</text>
 <rect x="796" y="402" width="140" height="32" rx="9" fill="rgba(217,146,98,.16)" stroke="rgba(217,146,98,.4)"/>
 <text x="866" y="420" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d99262">Trademark APIs</text><text x="866" y="433" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.55)">Pilot · live registry access</text>
@@ -384,7 +488,82 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <text x="998" y="420" text-anchor="middle" font-size="10.5" fill="#f6f3ec">Deep Skills</text><text x="998" y="433" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.55)">Legal patterns</text>
 <text x="919" y="452" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.55)">Memory-aware · Context-aware · Firm-shaped</text>
 </svg>
-<p class="diag-foot reveal">The enduring asset isn’t today’s model — it’s the <strong>firm-owned layer</strong> preserving context, continuity and confidentiality across every matter.</p>
+
+<!-- CHANGE #9B: MOBILE PORTRAIT SVG — viewBox 380x540, vertical layout -->
+<svg class="diag-svg-mobile reveal" viewBox="0 0 380 540" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+<defs>
+<radialGradient id="mCore"><stop offset="0%" stop-color="#d99262" stop-opacity=".28"/><stop offset="100%" stop-color="#5b8298" stop-opacity=".06"/></radialGradient>
+<radialGradient id="mGold"><stop offset="0%" stop-color="#d99262" stop-opacity=".30"/><stop offset="100%" stop-color="#d99262" stop-opacity=".06"/></radialGradient>
+<radialGradient id="mBlue"><stop offset="0%" stop-color="#5b8298" stop-opacity=".30"/><stop offset="100%" stop-color="#5b8298" stop-opacity=".06"/></radialGradient>
+</defs>
+
+<!-- ROW 1: Two lawyers side by side -->
+<g>
+  <rect x="30" y="14" width="140" height="62" rx="12" fill="url(#mGold)" stroke="rgba(217,146,98,.5)"/>
+  <text x="100" y="38" text-anchor="middle" font-size="9" fill="rgba(246,243,236,.7)" letter-spacing="1.6">LAWYER</text>
+  <text x="100" y="60" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="20" fill="#f6f3ec">Lisa</text>
+</g>
+<g>
+  <rect x="210" y="14" width="140" height="62" rx="12" fill="url(#mGold)" stroke="rgba(217,146,98,.5)"/>
+  <text x="280" y="38" text-anchor="middle" font-size="9" fill="rgba(246,243,236,.7)" letter-spacing="1.6">LAWYER</text>
+  <text x="280" y="60" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="20" fill="#f6f3ec">Lidia</text>
+</g>
+
+<!-- Connectors: lawyers down to core -->
+<path d="M 100 76 C 100 100 190 115 190 138" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".7"/>
+<path d="M 280 76 C 280 100 190 115 190 138" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".7"/>
+
+<!-- ROW 2: Core circle (centred) -->
+<circle cx="190" cy="210" r="72" fill="none" stroke="#d99262" stroke-width="1" stroke-opacity=".3"/>
+<circle cx="190" cy="210" r="62" fill="url(#mCore)" stroke="rgba(217,146,98,.4)"/>
+<circle cx="190" cy="210" r="42" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.12)"/>
+<text x="190" y="198" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="14" fill="#f6f3ec">Cordillera</text>
+<text x="190" y="215" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="13" fill="#d99262">AI Operating</text>
+<text x="190" y="231" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="14" fill="#f6f3ec">Layer</text>
+
+<!-- Connectors: core down to two columns -->
+<path d="M 155 268 C 140 295 110 305 100 316" stroke="#d99262" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".6"/>
+<path d="M 225 268 C 240 295 275 305 280 316" stroke="#5b8298" stroke-width="1.4" fill="none" stroke-dasharray="4 3" stroke-opacity=".6"/>
+
+<!-- ROW 3: Two columns side by side -->
+<!-- LEFT: Secure Foundation -->
+<rect x="10" y="316" width="170" height="148" rx="14" fill="url(#mGold)" stroke="rgba(217,146,98,.35)"/>
+<text x="95" y="334" text-anchor="middle" font-size="8" fill="#d99262" letter-spacing="2">SECURE FOUNDATION</text>
+<rect x="18" y="340" width="72" height="48" rx="8" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.12)"/>
+<text x="54" y="361" text-anchor="middle" font-size="10" font-weight="700" fill="#f6f3ec">OpenClaw</text>
+<text x="54" y="376" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.65)">Agent layer</text>
+<rect x="102" y="340" width="72" height="48" rx="8" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.12)"/>
+<text x="138" y="361" text-anchor="middle" font-size="10" font-weight="700" fill="#f6f3ec">Microsoft</text>
+<text x="138" y="376" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.65)">Private cloud</text>
+<text x="95" y="406" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.65)">Confidential · No training</text>
+<text x="95" y="420" text-anchor="middle" font-size="8" fill="rgba(246,243,236,.45)">Data controlled</text>
+<rect x="18" y="428" width="162" height="28" rx="7" fill="rgba(217,146,98,.14)" stroke="rgba(217,146,98,.35)"/>
+<text x="95" y="447" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Zero-retention available</text>
+
+<!-- RIGHT: Model Flexibility -->
+<rect x="200" y="316" width="170" height="148" rx="14" fill="url(#mBlue)" stroke="rgba(91,130,152,.35)"/>
+<text x="285" y="334" text-anchor="middle" font-size="8" fill="#5b8298" letter-spacing="2">MODEL FLEXIBILITY</text>
+<rect x="208" y="340" width="46" height="44" rx="7" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.12)"/>
+<text x="231" y="359" text-anchor="middle" font-size="9.5" font-weight="700" fill="#f6f3ec">OpenAI</text>
+<text x="231" y="373" text-anchor="middle" font-size="8" fill="rgba(246,243,236,.65)">GPT</text>
+<rect x="262" y="340" width="46" height="44" rx="7" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.12)"/>
+<text x="285" y="359" text-anchor="middle" font-size="9.5" font-weight="700" fill="#f6f3ec">Claude</text>
+<text x="285" y="373" text-anchor="middle" font-size="8" fill="rgba(246,243,236,.65)">Anthropic</text>
+<rect x="316" y="340" width="46" height="44" rx="7" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.12)"/>
+<text x="339" y="359" text-anchor="middle" font-size="9.5" font-weight="700" fill="#f6f3ec">Google</text>
+<text x="339" y="373" text-anchor="middle" font-size="8" fill="rgba(246,243,236,.65)">Gemini</text>
+<text x="285" y="406" text-anchor="middle" font-size="8.5" fill="rgba(246,243,236,.65)">Swap models freely</text>
+<text x="285" y="420" text-anchor="middle" font-size="8" fill="rgba(246,243,236,.45)">No lock-in by design</text>
+<rect x="208" y="428" width="154" height="28" rx="7" fill="rgba(217,146,98,.14)" stroke="rgba(217,146,98,.35)"/>
+<text x="285" y="447" text-anchor="middle" font-size="9.5" fill="rgba(246,243,236,.7)">Trademark APIs · Live</text>
+
+<!-- Bottom memory row -->
+<rect x="60" y="472" width="260" height="38" rx="10" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.1)"/>
+<text x="190" y="487" text-anchor="middle" font-size="8" fill="rgba(246,243,236,.55)" letter-spacing="1.5">FIRM MEMORY</text>
+<text x="190" y="503" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="12" fill="rgba(246,243,236,.75)">Matter · Lawyer · Process</text>
+</svg>
+
+<p class="diag-foot reveal">The enduring asset isn't today's model — it's the <strong>firm-owned layer</strong> preserving context, continuity and confidentiality across every matter.</p>
 </div>
 <div class="foot reveal" style="border:none"><span>Architecture</span><span>005</span></div>
 </div>
@@ -401,11 +580,13 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 <div class="closer-grid">
 <div>
 <div class="kicker reveal">In a sentence</div>
-<h1 class="display reveal" style="margin-top:.55rem">The model is the moment.<br><em class="acc">The firm’s context</em><br>is the asset.</h1>
+<h1 class="display reveal" style="margin-top:.55rem">The model is the moment.<br><em class="acc">The firm's context</em><br>is the asset.</h1>
 </div>
 <div>
-<p class="callout reveal">We don’t compete with Claude. We use it — inside a firm-centred process that can change as the market does.</p>
+<p class="callout reveal">We don't compete with Claude. We use it — inside a firm-centred process that can change as the market does.</p>
 <div class="byline reveal" style="margin-top:1.4rem"><span>Cordillera IP</span><span>cordillera.ch · Lausanne</span></div>
+<!-- Note D: ensure CTA has min-height 44px -->
+<a href="mailto:hello@cordillera.ch" class="btn reveal" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:1.2rem;padding:.7rem 1.6rem;background:var(--ink);color:var(--paper);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border-radius:4px;font-weight:500">Contact Cordillera IP</a>
 </div>
 </div>
 </div>
@@ -415,7 +596,7 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 
 </div><!-- /deck -->
 
-<div class="nav" role="navigation" aria-label="Slides">
+<div class="nav" id="nav" role="navigation" aria-label="Slides">
 <button id="prev" aria-label="Previous slide" type="button">‹</button>
 <div class="dots" id="dots"></div>
 <button id="next" aria-label="Next slide" type="button">›</button>
@@ -427,36 +608,73 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
   var slides = document.querySelectorAll('.slide');
   var total = slides.length;
   var cur = 1;
+  var lastDir = 1;
   var dotsEl = document.getElementById('dots');
   var countEl = document.getElementById('count');
+  var progressFill = document.getElementById('progressFill');
+  var nav = document.getElementById('nav');
+
   for (var i = 1; i <= total; i++) {
     var d = document.createElement('button');
     d.className = 'dot' + (i === 1 ? ' active' : '');
     d.setAttribute('aria-label', 'Go to slide ' + i);
     d.type = 'button';
-    (function(n){ d.onclick = function(){ to(n); }; })(i);
+    (function(n){ d.onclick = function(){ lastDir = n > cur ? 1 : -1; to(n); }; })(i);
     dotsEl.appendChild(d);
   }
+
   function to(n){
     if (n < 1) n = 1;
     if (n > total) n = total;
     if (n === cur) return;
-    var prev = document.querySelector('.slide.active');
-    var next = slides[n - 1];
-    if (prev) prev.classList.remove('active');
-    if (next) { next.classList.add('active'); revealAll(next); }
+    var prevSlide = document.querySelector('.slide.active');
+    var nextSlide = slides[n - 1];
+    var dir = lastDir;
+
+    if (prevSlide) {
+      prevSlide.style.transition = 'opacity .45s ease, transform .45s ease';
+      prevSlide.style.transform = dir === 1 ? 'translateX(-24px)' : 'translateX(24px)';
+      prevSlide.style.opacity = '0';
+      prevSlide.classList.remove('active');
+      // clean up after transition
+      (function(s){ setTimeout(function(){ s.style.transform = ''; s.style.opacity = ''; s.style.transition = ''; }, 500); })(prevSlide);
+    }
+    if (nextSlide) {
+      nextSlide.style.transition = 'none';
+      nextSlide.style.transform = dir === 1 ? 'translateX(24px)' : 'translateX(-24px)';
+      nextSlide.style.opacity = '0';
+      void nextSlide.offsetHeight;
+      nextSlide.classList.add('active');
+      nextSlide.style.transition = 'opacity .45s ease, transform .45s ease';
+      nextSlide.style.transform = 'translateX(0)';
+      nextSlide.style.opacity = '1';
+      revealAll(nextSlide);
+    }
     cur = n;
     sync();
   }
-  function go(d){ to(cur + d); }
+
+  function go(d){
+    lastDir = d;
+    to(cur + d);
+  }
+
   function sync(){
     var dots = document.querySelectorAll('.dot');
     for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('active', i + 1 === cur);
     countEl.textContent = cur + ' / ' + total;
+    if (progressFill) progressFill.style.width = (cur / total * 100) + '%';
+    // Note F: nav pill shadow on dark slides
+    var isDark = slides[cur - 1].classList.contains('dark');
+    nav.style.boxShadow = isDark ? '0 0 0 1px rgba(246,243,236,.2), 0 2px 12px rgba(0,0,0,.3)' : '';
   }
+
   function revealAll(s){
     var els = s.querySelectorAll('.reveal');
     els.forEach(function(el, i){
+      // Skip elements hidden by CSS (display:none) — don't animate them
+      var cs = window.getComputedStyle(el);
+      if (cs.display === 'none') return;
       el.style.transition = 'none';
       el.style.opacity = '0';
       el.style.transform = 'translateY(8px)';
@@ -467,29 +685,51 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
       el.style.transform = 'translateY(0)';
     });
   }
+
   document.getElementById('prev').onclick = function(){ go(-1); };
   document.getElementById('next').onclick = function(){ go(1); };
+
   document.addEventListener('keydown', function(e){
     if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); go(-1); }
     if (e.key === 'Home') { e.preventDefault(); to(1); }
     if (e.key === 'End') { e.preventDefault(); to(total); }
   });
-  // Touch swipe
+
+  // CHANGE #1: Touch swipe — horizontal AND vertical
   var tx = 0, ty = 0, tt = 0;
   document.addEventListener('touchstart', function(e){
-    tx = e.touches[0].clientX; ty = e.touches[0].clientY; tt = Date.now();
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+    tt = Date.now();
   }, {passive:true});
+
   document.addEventListener('touchend', function(e){
     var dx = e.changedTouches[0].clientX - tx;
     var dy = e.changedTouches[0].clientY - ty;
     var dt = Date.now() - tt;
-    if (dt < 600 && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-      go(dx < 0 ? 1 : -1);
+    if (dt < 700) {
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        lastDir = dx < 0 ? 1 : -1;
+        go(dx < 0 ? 1 : -1);
+      } else if (Math.abs(dy) > 50 && Math.abs(dy) > Math.abs(dx) * 1.5) {
+        lastDir = dy < 0 ? 1 : -1;
+        go(dy < 0 ? 1 : -1);
+      }
     }
   }, {passive:true});
+
+  // CHANGE #7: dismiss swipe hint on first touch
+  document.addEventListener('touchstart', function(){
+    var hint = document.getElementById('swipeHint');
+    if (hint) hint.style.display = 'none';
+  }, {once:true, passive:true});
+
   // Initial reveal
   revealAll(document.querySelector('.slide.active'));
+  sync();
 })();
 </script>
 </body>
