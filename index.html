@@ -36,7 +36,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
 html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
-body{min-height:100dvh;overflow-x:clip}
+body{min-height:100dvh;overflow-x:clip;padding-bottom:36px}
 
 /* sticky brand header */
 .brand-header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:clamp(.7rem,1.4vw,1.05rem) clamp(1rem,4vw,3.6rem);background:rgba(246,243,236,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);transition:background .35s ease,color .35s ease,border-color .35s ease}
@@ -67,7 +67,7 @@ section.slab > .frame{min-height:calc(100dvh - 60px)}
 .byline .swiss svg{width:14px;height:14px;flex-shrink:0;vertical-align:middle;display:inline-block}
 section.slab.dark .byline{border-color:rgba(246,243,236,.18);color:rgba(246,243,236,.6)}
 
-.kicker{display:inline-flex;align-items:center;gap:.55rem;letter-spacing:.14em;text-transform:uppercase;font-size:clamp(.62rem,.78vw,.74rem);color:var(--copper);font-weight:600}
+.kicker{display:inline-flex;align-items:center;gap:.6rem;letter-spacing:.18em;text-transform:uppercase;font-family:var(--sans);font-size:.85rem;color:var(--copper);font-weight:600}
 .kicker::before{content:'';width:24px;height:1px;background:var(--copper);flex-shrink:0}
 section.slab.dark .kicker{color:var(--copper-2)}
 section.slab.dark .kicker::before{background:var(--copper-2)}
@@ -81,15 +81,14 @@ em.alp{color:var(--alpine);font-style:italic;font-weight:400}
 /* Cormorant italic only here: cover hero accent + closer hero accent */
 h1.display em.acc-serif{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--copper);letter-spacing:-.005em}
 
-.lede{max-width:62ch;font-size:clamp(.96rem,1.15vw,1.15rem);line-height:1.55;color:var(--ink-2);font-weight:400;margin:0}
+.lede{max-width:60ch;font-size:clamp(.98rem,1.1vw,1.05rem);line-height:1.5;color:var(--ink-2);font-weight:400;margin:0;font-family:var(--sans)}
 .statement{font-family:var(--sans);font-weight:400;color:var(--ink-2);font-size:clamp(1.02rem,1.4vw,1.3rem);line-height:1.45;max-width:64ch;margin:0;border-left:3px solid var(--copper);padding-left:1.1rem}
 section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(--copper-2)}
 
 /* COVER — single column, top-anchored */
-.cover-grid{display:flex;flex-direction:column;gap:clamp(2.2rem,4.5vw,3.4rem);width:100%;align-items:flex-start;padding-top:clamp(1rem,3vh,3rem)}
-.cover-grid h1.display{max-width:18ch;text-align:left}
-.cover-statement{max-width:50ch;font-size:clamp(1.05rem,1.4vw,1.4rem);font-weight:400;color:var(--ink-2);line-height:1.45;margin:0;font-family:var(--sans)}
-.cover-boutique{max-width:60ch;font-size:clamp(.95rem,1.1vw,1.1rem);font-weight:300;color:var(--ink-2);line-height:1.6;margin:0;font-family:var(--sans)}
+.cover-grid{display:flex;flex-direction:column;gap:clamp(1.4rem,3vw,2.4rem);width:100%;align-items:flex-start;padding-top:clamp(1rem,3vh,3rem)}
+.cover-grid h1.display{max-width:18ch;text-align:left;margin-bottom:clamp(.4rem,1.2vw,1rem)}
+.cover-grid > .lede{max-width:60ch}
 
 /* HERO REVEAL — staggered lines + late italic accent (cover, architecture, closer) */
 .reveal-hero .line{display:block;opacity:0;transform:translateY(8px);transition:opacity .4s ease-out,transform .4s ease-out}
@@ -99,15 +98,17 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .reveal-hero.in .line:nth-child(3){transition-delay:160ms}
 .reveal-hero .accent-late{display:inline-block;opacity:0;transform:scale(.96);transform-origin:left center;transition:opacity .5s ease-out 280ms,transform .5s ease-out 280ms}
 .reveal-hero.in .accent-late{opacity:1;transform:scale(1)}
-.cover-grid .cover-statement,.cover-grid .cover-boutique{opacity:0;transform:translateY(8px);transition:opacity .55s ease-out,transform .55s ease-out}
-.cover-grid .cover-statement.in{opacity:1;transform:translateY(0);transition-delay:340ms}
-.cover-grid .cover-boutique.in{opacity:1;transform:translateY(0);transition-delay:480ms}
+.cover-grid > p.lede{opacity:0;transform:translateY(8px);transition:opacity .55s ease-out,transform .55s ease-out}
+.cover-grid > p.lede.in{opacity:1;transform:translateY(0)}
+.cover-grid > p.lede:nth-of-type(1).in{transition-delay:300ms}
+.cover-grid > p.lede:nth-of-type(2).in{transition-delay:440ms}
+.cover-grid > p.lede:nth-of-type(3).in{transition-delay:580ms}
 
 /* CONTRAST */
 .contrast-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule-strong);margin-top:clamp(.8rem,1.6vw,1.2rem);width:100%}
 .contrast-cell{padding:clamp(1rem,1.6vw,1.4rem);border-right:1px solid var(--rule)}
 .contrast-cell:last-child{border-right:none}
-.contrast-cell .lab{font-size:clamp(.6rem,.72vw,.7rem);letter-spacing:.18em;text-transform:uppercase;color:var(--slate);font-weight:600}
+.contrast-cell .lab{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);font-weight:600}
 .contrast-cell .pair{display:flex;align-items:baseline;gap:.5rem;margin:.6rem 0;font-family:var(--sans);font-size:clamp(1.25rem,2vw,1.7rem);font-weight:500;line-height:1;flex-wrap:wrap}
 .contrast-cell .pair .from{color:var(--ink-2)}
 .contrast-cell .pair .arr{color:var(--copper)}
@@ -119,17 +120,17 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--rule-strong);margin-top:clamp(1rem,1.8vw,1.4rem);width:100%}
 .pillar{padding:clamp(1rem,1.6vw,1.4rem);border-right:1px solid var(--rule)}
 .pillar:last-child{border-right:none}
-.pillar .num{font-family:var(--sans);font-size:clamp(.85rem,1vw,1rem);color:var(--copper);font-weight:600;letter-spacing:.04em}
-.pillar h5{margin:.4rem 0 .55rem;font-family:var(--sans);font-size:clamp(1.05rem,1.5vw,1.3rem);font-weight:600;letter-spacing:-.005em}
-.pillar p{margin:0;color:var(--ink-2);font-size:clamp(.85rem,.98vw,.92rem);line-height:1.5}
+.pillar .num{font-family:var(--sans);font-size:.9rem;color:var(--copper);font-weight:500;letter-spacing:0}
+.pillar h5{margin:.35rem 0 .55rem;font-family:var(--sans);font-size:.9rem;font-weight:500;letter-spacing:0;color:var(--ink)}
+.pillar p{margin:0;color:var(--ink-2);font-size:.88rem;line-height:1.5}
 
 /* TWIN */
 .twin{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:clamp(1rem,2vw,1.6rem);border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong);width:100%}
 .twin .card{padding:clamp(1.1rem,1.8vw,1.6rem);border-right:1px solid var(--rule)}
 .twin .card:last-child{border-right:none;background:var(--paper-2)}
-.twin .card .lab{font-size:clamp(.6rem,.72vw,.7rem);letter-spacing:.18em;text-transform:uppercase;color:var(--slate);font-weight:600}
-.twin .card h3{margin:.45rem 0 .6rem;font-family:var(--sans);font-size:clamp(1.3rem,1.9vw,1.7rem);font-weight:500;letter-spacing:-.005em}
-.twin .card p{margin:0;color:var(--ink-2);font-size:clamp(.9rem,1.05vw,1rem);line-height:1.55}
+.twin .card .lab{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);font-weight:600}
+.twin .card h3{margin:.4rem 0 .55rem;font-family:var(--sans);font-size:.9rem;font-weight:500;letter-spacing:0;color:var(--ink)}
+.twin .card p{margin:0;color:var(--ink-2);font-size:.88rem;line-height:1.5}
 
 /* DIAGRAM */
 .diag-stage{display:flex;flex-direction:column;align-items:center;width:100%;gap:1.2rem}
@@ -156,6 +157,16 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 /* reveal-on-scroll */
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
+
+/* ARCHITECTURE — anchor lede emphasis */
+.arch-anchor{margin-top:clamp(.7rem,1.4vw,1rem) !important;margin-bottom:clamp(.7rem,1.4vw,1rem) !important;font-size:clamp(1rem,1.18vw,1.12rem) !important;color:rgba(246,243,236,.9) !important;max-width:62ch}
+
+/* FLOATING FOOTER */
+.float-foot{position:fixed;bottom:0;left:0;right:0;height:36px;display:flex;align-items:center;justify-content:center;gap:clamp(.6rem,1.4vw,1.2rem);background:rgba(12,26,42,.90);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-family:var(--sans);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(246,243,236,.5);z-index:100;border-top:1px solid rgba(246,243,236,.08);font-weight:500}
+.float-foot-sep{color:rgba(246,243,236,.2)}
+.float-foot-cta{color:rgba(246,243,236,.6);text-decoration:none;transition:color .15s ease;margin-left:clamp(.4rem,1vw,.8rem);font-weight:600}
+.float-foot-cta:hover{color:rgba(246,243,236,1)}
+@media (max-width:480px){.float-foot-hide{display:none}}
 
 /* PINNED ARCHITECTURE — desktop only. Section becomes a tall scroll container; pin-stage sticks. */
 section.slab.architecture-pinned{display:block;padding:0;min-height:calc(100dvh - 60px)}
@@ -291,8 +302,9 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="body" style="justify-content:flex-start">
 <div class="cover-grid">
 <h1 class="display reveal-hero"><span class="line">Task AI is impressive.</span><span class="line"><em class="acc-serif accent-late">Firm-context AI</em></span><span class="line">is the real shift.</span></h1>
-<p class="cover-statement reveal">Remarkable tools are now available to everyone. The advantage lives in what surrounds them.</p>
-<p class="cover-boutique reveal">Being a specialist boutique, we outpace peers many times our size. No committees. No IT roadmap two quarters behind. The next change to how we work is already underway.</p>
+<p class="lede reveal">Elite IP judgment, amplified — at every stage of every matter. Less overhead. More of your spend on the work that counts.</p>
+<p class="lede reveal">Remarkable tools are now available to everyone. The advantage lives in what surrounds them.</p>
+<p class="lede reveal">As a specialist boutique, we outpace the market — minimal overhead, fast iteration, and no institutional weight slowing the next move.</p>
 </div>
 </div>
 </div>
@@ -361,7 +373,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <p>How the firm runs. Matter status. Client expectations. Confidentiality choices. The shared layer that keeps the firm's standards consistent across every piece of work.</p>
 </div>
 </div>
-<p class="statement reveal" style="margin-top:1.6rem">We didn't bet the practice on one model. We built the layer where the firm's working knowledge lives. The model can change. The firm doesn't have to.</p>
+<p class="statement reveal" style="margin-top:1.6rem">We didn't tie the practice to a single tool. We built the layer where the firm's working knowledge lives — so whatever comes next, the firm's workflows are already there.</p>
 </div>
 </div>
 </section>
@@ -375,7 +387,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="diag-head">
 <div class="kicker reveal">Architecture · how it works</div>
 <h2 class="display reveal-hero"><span class="line">The private AI layer</span><span class="line"><em class="acc accent-late">behind the firm</em>.</span></h2>
-<p class="lede reveal">The enduring asset isn't today's model. It's the firm-owned layer that holds our context — how we work, what we know, every live matter — and keeps it consistent across every model we use.</p>
+<p class="lede reveal arch-anchor">The enduring asset isn't today's model. It's the firm-owned layer that holds our context — how we work, what we know, every live matter — and keeps it consistent across every model we use.</p>
 </div>
 
 <!-- DESKTOP DIAGRAM — three-tier: Practice (top, OUTSIDE boundary) / Platform (middle) / Resources (bottom) -->
@@ -404,26 +416,26 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <g class="diag-tier" data-step="1">
 <ellipse cx="550" cy="100" rx="640" ry="180" fill="url(#practiceGlow)"/>
 <text x="380" y="78" text-anchor="middle" font-family="Montserrat" font-size="34" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lisa Ritchie</text>
-<text x="380" y="102" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="600" letter-spacing="2.4" fill="rgba(246,243,236,0.55)">IP PARTNER</text>
+<text x="380" y="102" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="1.8" fill="rgba(246,243,236,0.5)">IP partner</text>
 
 <text x="720" y="78" text-anchor="middle" font-family="Montserrat" font-size="34" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lidia Lanza</text>
-<text x="720" y="102" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="600" letter-spacing="2.4" fill="rgba(246,243,236,0.55)">IP PARTNER</text>
+<text x="720" y="102" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="1.8" fill="rgba(246,243,236,0.5)">IP partner</text>
 
-<text x="550" y="148" text-anchor="middle" font-family="Montserrat" font-size="10.5" letter-spacing="3.2" fill="#d99262" font-weight="600">DECADES OF IP PRACTICE</text>
+<text x="550" y="148" text-anchor="middle" font-family="Montserrat" font-size="11" letter-spacing="0.4" fill="rgba(246,243,236,0.6)" font-weight="500">Decades of IP practice</text>
 <text x="550" y="168" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="13" letter-spacing="0.4" fill="rgba(246,243,236,0.55)">the firm's working knowledge — the irreplaceable bit</text>
 </g>
 
-<!-- ===== TIER 2 — SERVED BY arrows + label ===== -->
+<!-- ===== TIER 2 — Served by arrows + label ===== -->
 <g class="diag-tier" data-step="2">
-<path d="M 380 115 C 400 165, 480 210, 510 252" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
-<path d="M 720 115 C 700 165, 620 210, 590 252" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
-<text x="550" y="220" text-anchor="middle" font-family="Montserrat" font-size="10" letter-spacing="2.6" fill="rgba(217,146,98,0.78)" font-weight="600">SERVED BY</text>
+<path d="M 380 115 C 400 165, 480 210, 510 252" stroke="rgba(246,243,236,0.28)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
+<path d="M 720 115 C 700 165, 620 210, 590 252" stroke="rgba(246,243,236,0.28)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
+<text x="550" y="220" text-anchor="middle" font-family="Montserrat" font-size="10.5" letter-spacing="0.4" fill="rgba(246,243,236,0.55)" font-weight="500">Served by</text>
 </g>
 
 <!-- ===== TIER 3 — AI layer boundary ===== -->
 <g class="diag-tier" data-step="3">
-<rect x="20" y="240" width="1060" height="500" rx="20" fill="rgba(217,146,98,0.02)" stroke="rgba(217,146,98,0.22)" stroke-width="1" stroke-dasharray="2 6"/>
-<text x="40" y="262" font-family="Montserrat" font-size="9" letter-spacing="2.6" fill="rgba(217,146,98,0.72)" font-weight="600">— THE PRIVATE AI LAYER · BUILT IN-HOUSE</text>
+<rect x="20" y="240" width="1060" height="500" rx="20" fill="rgba(217,146,98,0.025)" stroke="rgba(217,146,98,0.28)" stroke-width="1" stroke-dasharray="2 6"/>
+<text x="40" y="262" font-family="Montserrat" font-size="10" letter-spacing="0.4" fill="rgba(217,146,98,0.78)" font-weight="500">Private AI layer · built in-house</text>
 </g>
 
 <!-- ===== TIER 4 — Combined platform (OpenClaw + Microsoft) ===== -->
@@ -431,16 +443,16 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <rect x="80" y="280" width="940" height="220" rx="16" fill="url(#platformGradient)" stroke="rgba(217,146,98,0.45)" stroke-width="1.4"/>
 
 <!-- Orchestration zone -->
-<text x="550" y="310" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="600" letter-spacing="2.6" fill="#d99262">— ORCHESTRATION</text>
+<text x="550" y="310" text-anchor="middle" font-family="Montserrat" font-size="10.5" font-weight="500" letter-spacing="0.4" fill="rgba(217,146,98,0.85)">Orchestration</text>
 <circle cx="455" cy="352" r="18" fill="rgba(184,106,61,0.45)" stroke="rgba(217,146,98,0.85)" stroke-width="1"/>
 <image href="avatar2.jpeg" x="438" y="335" width="34" height="34" clip-path="url(#clawdiClip)" preserveAspectRatio="xMidYMid slice"/>
 <text x="481" y="360" font-family="Montserrat" font-size="28" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">OpenClaw</text>
 <text x="550" y="386" text-anchor="middle" font-family="Montserrat" font-size="11" fill="rgba(246,243,236,0.75)">Agent framework · routing · context handling</text>
 <text x="550" y="402" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">connects everything below to the practice</text>
 
-<!-- RUNS ON divider -->
+<!-- Runs on divider -->
 <line x1="380" y1="428" x2="510" y2="428" stroke="rgba(217,146,98,0.30)" stroke-width="1"/>
-<text x="550" y="432" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="2.4" fill="rgba(217,146,98,0.7)" font-weight="600">RUNS ON</text>
+<text x="550" y="432" text-anchor="middle" font-family="Montserrat" font-size="10" letter-spacing="0.3" fill="rgba(217,146,98,0.72)" font-weight="500">Runs on</text>
 <line x1="590" y1="428" x2="720" y2="428" stroke="rgba(217,146,98,0.30)" stroke-width="1"/>
 
 <!-- Microsoft Private Cloud zone -->
@@ -451,59 +463,59 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <!-- ===== TIER 5 — Verticals + resource cards ===== -->
 <g class="diag-tier" data-step="5">
 <path d="M 200 500 L 200 552" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
-<path d="M 550 500 L 550 552" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
-<path d="M 900 500 L 900 552" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
+<path d="M 550 500 L 550 552" stroke="rgba(246,243,236,0.22)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
+<path d="M 900 500 L 900 552" stroke="rgba(246,243,236,0.22)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
 
 <!-- ===== RESOURCE TIER ===== -->
-<!-- LEFT: Firm Memory Layer -->
+<!-- LEFT: Firm Memory Layer (copper accent — the highlighted firm-owned context) -->
 <g>
 <rect x="40" y="552" width="320" height="160" rx="14" fill="url(#cardGold)" stroke="rgba(217,146,98,0.32)" stroke-width="1"/>
-<text x="200" y="578" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="600" letter-spacing="2.6" fill="#d99262">FIRM MEMORY LAYER</text>
+<text x="200" y="578" text-anchor="middle" font-family="Montserrat" font-size="10.5" font-weight="500" letter-spacing="0.4" fill="rgba(217,146,98,0.95)">Firm memory layer</text>
 <text x="200" y="608" text-anchor="middle" font-family="Montserrat" font-size="17" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Matter · Lawyer · Process</text>
 <text x="200" y="632" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Style &amp; judgment. Standards.</text>
 <text x="200" y="650" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Confidentiality. Live status.</text>
 <text x="200" y="678" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">Where the firm's context lives.</text>
 </g>
 
-<!-- CENTRE: Model Flexibility -->
+<!-- CENTRE: Model Flexibility (neutral) -->
 <g>
-<rect x="390" y="552" width="320" height="160" rx="14" fill="url(#cardBlue)" stroke="rgba(91,130,152,0.32)" stroke-width="1"/>
-<text x="550" y="578" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="600" letter-spacing="2.6" fill="#5b8298">MODEL FLEXIBILITY</text>
+<rect x="390" y="552" width="320" height="160" rx="14" fill="rgba(246,243,236,0.04)" stroke="rgba(246,243,236,0.14)" stroke-width="1"/>
+<text x="550" y="578" text-anchor="middle" font-family="Montserrat" font-size="10.5" font-weight="500" letter-spacing="0.4" fill="rgba(246,243,236,0.65)">Model flexibility</text>
 
 <rect x="408" y="596" width="92" height="48" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
-<text x="454" y="617" text-anchor="middle" font-family="Montserrat" font-size="11" font-weight="600" fill="#f6f3ec">OpenAI</text>
-<text x="454" y="631" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.6)">GPT</text>
+<text x="454" y="617" text-anchor="middle" font-family="Montserrat" font-size="11" font-weight="500" fill="rgba(246,243,236,0.92)">OpenAI</text>
+<text x="454" y="631" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.55)">GPT</text>
 
 <rect x="504" y="596" width="92" height="48" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
-<text x="550" y="617" text-anchor="middle" font-family="Montserrat" font-size="11" font-weight="600" fill="#f6f3ec">Anthropic</text>
-<text x="550" y="631" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.6)">Claude</text>
+<text x="550" y="617" text-anchor="middle" font-family="Montserrat" font-size="11" font-weight="500" fill="rgba(246,243,236,0.92)">Anthropic</text>
+<text x="550" y="631" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.55)">Claude</text>
 
 <rect x="600" y="596" width="92" height="48" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
-<text x="646" y="617" text-anchor="middle" font-family="Montserrat" font-size="11" font-weight="600" fill="#f6f3ec">Google</text>
-<text x="646" y="631" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.6)">Gemini</text>
+<text x="646" y="617" text-anchor="middle" font-family="Montserrat" font-size="11" font-weight="500" fill="rgba(246,243,236,0.92)">Google</text>
+<text x="646" y="631" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.55)">Gemini</text>
 
-<text x="550" y="665" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Swap models without rebuilding context</text>
-<text x="550" y="683" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">No lock-in by design</text>
+<text x="550" y="665" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Swap models without rebuilding context</text>
+<text x="550" y="683" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.45)">No lock-in by design</text>
 </g>
 
-<!-- RIGHT: Legal Intelligence -->
+<!-- RIGHT: Legal Intelligence (neutral) -->
 <g>
-<rect x="740" y="552" width="320" height="160" rx="14" fill="url(#cardGold)" stroke="rgba(217,146,98,0.32)" stroke-width="1"/>
-<text x="900" y="578" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="600" letter-spacing="2.6" fill="#d99262">LEGAL INTELLIGENCE</text>
+<rect x="740" y="552" width="320" height="160" rx="14" fill="rgba(246,243,236,0.04)" stroke="rgba(246,243,236,0.14)" stroke-width="1"/>
+<text x="900" y="578" text-anchor="middle" font-family="Montserrat" font-size="10.5" font-weight="500" letter-spacing="0.4" fill="rgba(246,243,236,0.65)">Legal intelligence</text>
 <text x="900" y="608" text-anchor="middle" font-family="Montserrat" font-size="17" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Live registers · databases</text>
-<text x="900" y="632" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Trademark APIs · case law.</text>
-<text x="900" y="650" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Real-time legal sources.</text>
-<text x="900" y="678" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">Direct connections most firms haven't built.</text>
+<text x="900" y="632" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Trademark APIs · case law.</text>
+<text x="900" y="650" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Real-time legal sources.</text>
+<text x="900" y="678" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.45)">Direct connections most firms haven't built.</text>
 </g>
 </g>
 
-<!-- ===== TIER 6 — Inter-resource connections (CONTEXT, QUERIES) ===== -->
+<!-- ===== TIER 6 — Inter-resource connections (Context, Queries) ===== -->
 <g class="diag-tier" data-step="6">
 <line x1="360" y1="632" x2="390" y2="632" stroke="rgba(217,146,98,0.55)" stroke-width="1" stroke-dasharray="2 3"/>
-<text x="375" y="624" text-anchor="middle" font-family="Montserrat" font-size="7.5" letter-spacing="1.6" fill="rgba(217,146,98,0.78)" font-weight="600">CONTEXT</text>
+<text x="375" y="624" text-anchor="middle" font-family="Montserrat" font-size="8" letter-spacing="0.3" fill="rgba(217,146,98,0.75)" font-weight="500">Context</text>
 
-<line x1="710" y1="632" x2="740" y2="632" stroke="rgba(91,130,152,0.55)" stroke-width="1" stroke-dasharray="2 3"/>
-<text x="725" y="624" text-anchor="middle" font-family="Montserrat" font-size="7.5" letter-spacing="1.6" fill="rgba(91,130,152,0.82)" font-weight="600">QUERIES</text>
+<line x1="710" y1="632" x2="740" y2="632" stroke="rgba(246,243,236,0.32)" stroke-width="1" stroke-dasharray="2 3"/>
+<text x="725" y="624" text-anchor="middle" font-family="Montserrat" font-size="8" letter-spacing="0.3" fill="rgba(246,243,236,0.6)" font-weight="500">Queries</text>
 </g>
 </svg>
 
@@ -521,25 +533,25 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <g class="diag-tier" data-step="1">
 <ellipse cx="190" cy="80" rx="240" ry="120" fill="url(#mPracticeGlow)"/>
 <text x="190" y="56" text-anchor="middle" font-family="Montserrat" font-size="26" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lisa Ritchie</text>
-<text x="190" y="76" text-anchor="middle" font-family="Montserrat" font-size="8.5" font-weight="600" letter-spacing="2.2" fill="rgba(246,243,236,0.55)">IP PARTNER</text>
+<text x="190" y="76" text-anchor="middle" font-family="Montserrat" font-size="8.5" font-weight="500" letter-spacing="1.4" fill="rgba(246,243,236,0.5)">IP partner</text>
 
 <text x="190" y="118" text-anchor="middle" font-family="Montserrat" font-size="26" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lidia Lanza</text>
-<text x="190" y="138" text-anchor="middle" font-family="Montserrat" font-size="8.5" font-weight="600" letter-spacing="2.2" fill="rgba(246,243,236,0.55)">IP PARTNER</text>
+<text x="190" y="138" text-anchor="middle" font-family="Montserrat" font-size="8.5" font-weight="500" letter-spacing="1.4" fill="rgba(246,243,236,0.5)">IP partner</text>
 
-<text x="190" y="174" text-anchor="middle" font-family="Montserrat" font-size="9.5" letter-spacing="2.8" fill="#d99262" font-weight="600">DECADES OF IP PRACTICE</text>
+<text x="190" y="174" text-anchor="middle" font-family="Montserrat" font-size="10" letter-spacing="0.3" fill="rgba(246,243,236,0.6)" font-weight="500">Decades of IP practice</text>
 <text x="190" y="192" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.55)">the firm's working knowledge</text>
 </g>
 
-<!-- ===== TIER 2 — SERVED BY ===== -->
+<!-- ===== TIER 2 — Served by ===== -->
 <g class="diag-tier" data-step="2">
-<path d="M 190 200 C 190 230, 190 240, 190 280" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
-<text x="190" y="248" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="2.6" fill="rgba(217,146,98,0.78)" font-weight="600">SERVED BY</text>
+<path d="M 190 200 C 190 230, 190 240, 190 280" stroke="rgba(246,243,236,0.28)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
+<text x="190" y="248" text-anchor="middle" font-family="Montserrat" font-size="9.5" letter-spacing="0.3" fill="rgba(246,243,236,0.55)" font-weight="500">Served by</text>
 </g>
 
 <!-- ===== TIER 3 — Boundary ===== -->
 <g class="diag-tier" data-step="3">
-<rect x="10" y="280" width="360" height="780" rx="16" fill="rgba(217,146,98,0.02)" stroke="rgba(217,146,98,0.22)" stroke-width="1" stroke-dasharray="2 6"/>
-<text x="22" y="300" font-family="Montserrat" font-size="8" letter-spacing="2.2" fill="rgba(217,146,98,0.72)" font-weight="600">— PRIVATE AI LAYER · BUILT IN-HOUSE</text>
+<rect x="10" y="280" width="360" height="780" rx="16" fill="rgba(217,146,98,0.025)" stroke="rgba(217,146,98,0.28)" stroke-width="1" stroke-dasharray="2 6"/>
+<text x="22" y="300" font-family="Montserrat" font-size="9" letter-spacing="0.3" fill="rgba(217,146,98,0.78)" font-weight="500">Private AI layer · built in-house</text>
 </g>
 
 <!-- ===== TIER 4 — Combined platform ===== -->
@@ -547,15 +559,15 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <rect x="24" y="316" width="332" height="220" rx="14" fill="url(#mPlatformGradient)" stroke="rgba(217,146,98,0.45)" stroke-width="1.2"/>
 
 <!-- Orchestration zone -->
-<text x="190" y="340" text-anchor="middle" font-family="Montserrat" font-size="8.5" font-weight="600" letter-spacing="2.4" fill="#d99262">— ORCHESTRATION</text>
+<text x="190" y="340" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="0.3" fill="rgba(217,146,98,0.85)">Orchestration</text>
 <circle cx="80" cy="396" r="15" fill="rgba(184,106,61,0.45)" stroke="rgba(217,146,98,0.85)" stroke-width="1"/>
 <image href="avatar2.jpeg" x="66" y="382" width="28" height="28" clip-path="url(#mClawdiClip)" preserveAspectRatio="xMidYMid slice"/>
 <text x="105" y="404" font-family="Montserrat" font-size="22" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">OpenClaw</text>
 <text x="190" y="430" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.75)">Agent framework · routing · context</text>
 
-<!-- RUNS ON divider -->
+<!-- Runs on divider -->
 <line x1="100" y1="454" x2="160" y2="454" stroke="rgba(217,146,98,0.30)" stroke-width="1"/>
-<text x="190" y="458" text-anchor="middle" font-family="Montserrat" font-size="8" letter-spacing="2.2" fill="rgba(217,146,98,0.7)" font-weight="600">RUNS ON</text>
+<text x="190" y="458" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="0.3" fill="rgba(217,146,98,0.72)" font-weight="500">Runs on</text>
 <line x1="220" y1="454" x2="280" y2="454" stroke="rgba(217,146,98,0.30)" stroke-width="1"/>
 
 <!-- Microsoft Private Cloud zone -->
@@ -567,41 +579,41 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <!-- ===== TIER 5 — Vertical drop + resource cards (stacked) ===== -->
 <g class="diag-tier" data-step="5">
 <path d="M 190 536 L 190 568" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
-<!-- Memory -->
+<!-- Memory (copper accent) -->
 <g>
 <rect x="24" y="568" width="332" height="148" rx="12" fill="url(#mCardGold)" stroke="rgba(217,146,98,0.32)" stroke-width="1"/>
-<text x="190" y="592" text-anchor="middle" font-family="Montserrat" font-size="9" font-weight="600" letter-spacing="2.4" fill="#d99262">FIRM MEMORY LAYER</text>
+<text x="190" y="592" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="0.3" fill="rgba(217,146,98,0.95)">Firm memory layer</text>
 <text x="190" y="622" text-anchor="middle" font-family="Montserrat" font-size="15" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Matter · Lawyer · Process</text>
 <text x="190" y="648" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Style &amp; judgment. Standards.</text>
 <text x="190" y="666" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Confidentiality. Live status.</text>
 <text x="190" y="694" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">Where the firm's context lives.</text>
 </g>
 
-<!-- Models -->
+<!-- Models (neutral) -->
 <g>
-<rect x="24" y="734" width="332" height="148" rx="12" fill="url(#mCardBlue)" stroke="rgba(91,130,152,0.32)" stroke-width="1"/>
-<text x="190" y="758" text-anchor="middle" font-family="Montserrat" font-size="9" font-weight="600" letter-spacing="2.4" fill="#5b8298">MODEL FLEXIBILITY</text>
+<rect x="24" y="734" width="332" height="148" rx="12" fill="rgba(246,243,236,0.04)" stroke="rgba(246,243,236,0.14)" stroke-width="1"/>
+<text x="190" y="758" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="0.3" fill="rgba(246,243,236,0.65)">Model flexibility</text>
 <rect x="48" y="772" width="92" height="44" rx="7" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
-<text x="94" y="790" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="600" fill="#f6f3ec">OpenAI</text>
-<text x="94" y="804" text-anchor="middle" font-family="Montserrat" font-size="8" fill="rgba(246,243,236,0.6)">GPT</text>
+<text x="94" y="790" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="500" fill="rgba(246,243,236,0.92)">OpenAI</text>
+<text x="94" y="804" text-anchor="middle" font-family="Montserrat" font-size="8" fill="rgba(246,243,236,0.55)">GPT</text>
 <rect x="144" y="772" width="92" height="44" rx="7" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
-<text x="190" y="790" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="600" fill="#f6f3ec">Anthropic</text>
-<text x="190" y="804" text-anchor="middle" font-family="Montserrat" font-size="8" fill="rgba(246,243,236,0.6)">Claude</text>
+<text x="190" y="790" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="500" fill="rgba(246,243,236,0.92)">Anthropic</text>
+<text x="190" y="804" text-anchor="middle" font-family="Montserrat" font-size="8" fill="rgba(246,243,236,0.55)">Claude</text>
 <rect x="240" y="772" width="92" height="44" rx="7" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
-<text x="286" y="790" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="600" fill="#f6f3ec">Google</text>
-<text x="286" y="804" text-anchor="middle" font-family="Montserrat" font-size="8" fill="rgba(246,243,236,0.6)">Gemini</text>
-<text x="190" y="836" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Swap models without rebuilding context</text>
-<text x="190" y="858" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">No lock-in by design</text>
+<text x="286" y="790" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="500" fill="rgba(246,243,236,0.92)">Google</text>
+<text x="286" y="804" text-anchor="middle" font-family="Montserrat" font-size="8" fill="rgba(246,243,236,0.55)">Gemini</text>
+<text x="190" y="836" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Swap models without rebuilding context</text>
+<text x="190" y="858" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.45)">No lock-in by design</text>
 </g>
 
-<!-- Legal -->
+<!-- Legal (neutral) -->
 <g>
-<rect x="24" y="900" width="332" height="148" rx="12" fill="url(#mCardGold)" stroke="rgba(217,146,98,0.32)" stroke-width="1"/>
-<text x="190" y="924" text-anchor="middle" font-family="Montserrat" font-size="9" font-weight="600" letter-spacing="2.4" fill="#d99262">LEGAL INTELLIGENCE</text>
+<rect x="24" y="900" width="332" height="148" rx="12" fill="rgba(246,243,236,0.04)" stroke="rgba(246,243,236,0.14)" stroke-width="1"/>
+<text x="190" y="924" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="0.3" fill="rgba(246,243,236,0.65)">Legal intelligence</text>
 <text x="190" y="954" text-anchor="middle" font-family="Montserrat" font-size="15" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Live registers · databases</text>
-<text x="190" y="980" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Trademark APIs · case law.</text>
-<text x="190" y="998" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Real-time legal sources.</text>
-<text x="190" y="1026" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">Direct connections most firms haven't built.</text>
+<text x="190" y="980" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Trademark APIs · case law.</text>
+<text x="190" y="998" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Real-time legal sources.</text>
+<text x="190" y="1026" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.45)">Direct connections most firms haven't built.</text>
 </g>
 </g>
 </svg>
@@ -645,7 +657,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 </div>
 </div>
 
-<div class="contact-block reveal">
+<div class="contact-block reveal" id="contact">
 <p class="personal-statement">Cordillera is an IP law practice first. Lisa has spent decades at the sharp end of international IP. The kind of judgment that takes years to build and can't be bought as a subscription. What we've added is the layer underneath her work: AI that holds the firm's context, so every matter moves with the full weight of that practice behind it.</p>
 <p class="cto-line">Want to know how this works under the hood? Talk to our CTO, <a href="mailto:krzys.wloch@cordillera.ch">Krzys Wloch</a><img src="avatar2.jpeg" alt="" class="clawdi-inline">.</p>
 <a href="mailto:hello@cordillera.ch" class="btn">Contact Cordillera IP</a>
@@ -654,6 +666,15 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="byline reveal"><span class="swiss">Cordillera IP · Lausanne <svg aria-label="Swiss flag"><use href="#swiss-flag"/></svg> · Swiss R&amp;D</span><span>cordillera.ch</span></div>
 </div>
 </section>
+
+<div class="float-foot">
+  <span>Cordillera IP</span>
+  <span class="float-foot-sep float-foot-hide">·</span>
+  <span class="float-foot-hide">Lausanne 🇨🇭</span>
+  <span class="float-foot-sep float-foot-hide">·</span>
+  <span class="float-foot-hide">cordillera.ch</span>
+  <a href="#contact" class="float-foot-cta">Contact →</a>
+</div>
 
 <div class="diag-overlay" id="diagOverlay" role="dialog" aria-label="Architecture diagram expanded">
   <button class="diag-overlay-close" id="diagOverlayClose" aria-label="Close">&#x2715;</button>
