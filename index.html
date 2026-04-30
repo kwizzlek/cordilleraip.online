@@ -91,15 +91,17 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .cover-statement{max-width:50ch;font-size:clamp(1.05rem,1.4vw,1.4rem);font-weight:400;color:var(--ink-2);line-height:1.45;margin:0;font-family:var(--sans)}
 .cover-boutique{max-width:60ch;font-size:clamp(.95rem,1.1vw,1.1rem);font-weight:300;color:var(--ink-2);line-height:1.6;margin:0;font-family:var(--sans)}
 
-/* COVER STAGGERED REVEAL — first paint only */
-.cover-grid h1.display .lh{display:block;opacity:0;transform:translateY(10px)}
-.cover-grid .cover-statement,.cover-grid .cover-boutique{opacity:0;transform:translateY(10px)}
-@keyframes coverFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.cover-grid h1.display .lh-1{animation:coverFade .55s ease .15s both}
-.cover-grid h1.display .lh-2{animation:coverFade .55s ease .42s both}
-.cover-grid h1.display .lh-italic{animation:coverFade .75s ease .82s both}
-.cover-grid .cover-statement{animation:coverFade .55s ease 1.05s both}
-.cover-grid .cover-boutique{animation:coverFade .55s ease 1.25s both}
+/* HERO REVEAL — staggered lines + late italic accent (cover, architecture, closer) */
+.reveal-hero .line{display:block;opacity:0;transform:translateY(8px);transition:opacity .4s ease-out,transform .4s ease-out}
+.reveal-hero.in .line{opacity:1;transform:translateY(0)}
+.reveal-hero.in .line:nth-child(1){transition-delay:0ms}
+.reveal-hero.in .line:nth-child(2){transition-delay:80ms}
+.reveal-hero.in .line:nth-child(3){transition-delay:160ms}
+.reveal-hero .accent-late{display:inline-block;opacity:0;transform:scale(.96);transform-origin:left center;transition:opacity .5s ease-out 280ms,transform .5s ease-out 280ms}
+.reveal-hero.in .accent-late{opacity:1;transform:scale(1)}
+.cover-grid .cover-statement,.cover-grid .cover-boutique{opacity:0;transform:translateY(8px);transition:opacity .55s ease-out,transform .55s ease-out}
+.cover-grid .cover-statement.in{opacity:1;transform:translateY(0);transition-delay:340ms}
+.cover-grid .cover-boutique.in{opacity:1;transform:translateY(0);transition-delay:480ms}
 
 /* CONTRAST */
 .contrast-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule-strong);margin-top:clamp(.8rem,1.6vw,1.2rem);width:100%}
@@ -154,6 +156,19 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 /* reveal-on-scroll */
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
+
+/* DIAGRAM TIER REVEAL — one-shot, sequential 180ms apart */
+.diag-svg .diag-tier,.diag-svg-mobile .diag-tier{opacity:0;transition:opacity .5s ease-out}
+.diag-svg.diag-revealed .diag-tier,.diag-svg-mobile.diag-revealed .diag-tier{opacity:1}
+.diag-svg.diag-revealed .diag-tier[data-step="1"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="1"]{transition-delay:0ms}
+.diag-svg.diag-revealed .diag-tier[data-step="2"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="2"]{transition-delay:180ms}
+.diag-svg.diag-revealed .diag-tier[data-step="3"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="3"]{transition-delay:360ms}
+.diag-svg.diag-revealed .diag-tier[data-step="4"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="4"]{transition-delay:540ms}
+.diag-svg.diag-revealed .diag-tier[data-step="5"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="5"]{transition-delay:720ms}
+.diag-svg.diag-revealed .diag-tier[data-step="6"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="6"]{transition-delay:900ms}
+
+/* HEADER LABEL CROSS-FADE */
+.brand-tag{transition:opacity .25s ease,color .35s ease}
 
 /* diagram expand overlay (mobile) */
 .diag-expand-btn{display:none;background:rgba(18,22,34,.75);color:#f6f3ec;border:1px solid rgba(246,243,236,.22);border-radius:6px;padding:7px 13px;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(6px);font-family:var(--sans);align-items:center;gap:5px;align-self:center;flex-shrink:0;font-weight:600}
@@ -228,8 +243,8 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .reveal{transition:none;opacity:1;transform:none}
-  .cover-grid h1.display .lh,.cover-grid .cover-statement,.cover-grid .cover-boutique{animation:none;opacity:1;transform:none}
+  .reveal,.reveal-hero .line,.reveal-hero .accent-late,.cover-grid .cover-statement,.cover-grid .cover-boutique{transition:none;opacity:1;transform:none}
+  .diag-svg .diag-tier,.diag-svg-mobile .diag-tier{opacity:1;transition:none}
 }
 </style>
 </head>
@@ -256,11 +271,11 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 </header>
 
 <!-- 1 COVER — single column, top-anchored, staggered hero reveal -->
-<section class="slab" id="cover">
+<section class="slab" id="cover" data-header-label="The firm-context layer">
 <div class="frame">
 <div class="body" style="justify-content:flex-start">
 <div class="cover-grid">
-<h1 class="display"><span class="lh lh-1">Task AI is impressive.</span><span class="lh lh-italic"><em class="acc-serif">Firm-context AI</em></span><span class="lh lh-2">is the real shift.</span></h1>
+<h1 class="display reveal-hero"><span class="line">Task AI is impressive.</span><span class="line"><em class="acc-serif accent-late">Firm-context AI</em></span><span class="line">is the real shift.</span></h1>
 <p class="cover-statement">Remarkable tools are now available to everyone. The advantage lives in what surrounds them.</p>
 <p class="cover-boutique">Being a specialist boutique, we outpace peers many times our size. No committees. No IT roadmap two quarters behind. The next change to how we work is already underway.</p>
 </div>
@@ -269,7 +284,7 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 </section>
 
 <!-- 2 CONTRAST — kicker → grid → italic statement (no h2) -->
-<section class="slab">
+<section class="slab" data-header-label="The contrast">
 <div class="frame">
 <div class="body">
 <div class="kicker reveal">The contrast</div>
@@ -296,7 +311,7 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 </section>
 
 <!-- 3 IN PRACTICE — kicker → lede → pillars → italic (no h2) -->
-<section class="slab">
+<section class="slab" data-header-label="In practice">
 <div class="frame">
 <div class="body">
 <div class="kicker reveal">In practice</div>
@@ -313,7 +328,7 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 </section>
 
 <!-- 4 DIGITAL TWINNING -->
-<section class="slab">
+<section class="slab" data-header-label="Digital twinning">
 <div class="frame">
 <div class="body">
 <div class="kicker reveal">Digital twinning</div>
@@ -337,18 +352,18 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 </section>
 
 <!-- 5 ARCHITECTURE — three-tier diagram per sketch -->
-<section class="slab dark">
+<section class="slab dark" data-header-label="Architecture">
 <div class="frame">
 <div class="body" style="gap:.4rem">
 <div class="diag-stage">
 <div class="diag-head">
 <div class="kicker reveal">Architecture · how it works</div>
-<h2 class="display reveal">The private AI layer <em class="acc">behind the firm</em>.</h2>
+<h2 class="display reveal-hero"><span class="line">The private AI layer</span><span class="line"><em class="acc accent-late">behind the firm</em>.</span></h2>
 <p class="lede reveal">The enduring asset isn't today's model. It's the firm-owned layer that holds our context — how we work, what we know, every live matter — and keeps it consistent across every model we use.</p>
 </div>
 
 <!-- DESKTOP DIAGRAM — three-tier: Practice (top, OUTSIDE boundary) / Platform (middle) / Resources (bottom) -->
-<svg class="diag-svg reveal" viewBox="0 0 1100 770" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Cordillera architecture: Lisa Ritchie and Lidia Lanza at the top with decades of IP practice — the firm's working knowledge — served by the private AI layer below: a combined platform (OpenClaw running on Microsoft Private Cloud) connected to three resources: Firm Memory Layer, Model Flexibility, and Legal Intelligence.">
+<svg class="diag-svg" viewBox="0 0 1100 770" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Cordillera architecture: Lisa Ritchie and Lidia Lanza at the top with decades of IP practice — the firm's working knowledge — served by the private AI layer below: a combined platform (OpenClaw running on Microsoft Private Cloud) connected to three resources: Firm Memory Layer, Model Flexibility, and Legal Intelligence.">
 <defs>
 <radialGradient id="practiceGlow" cx="50%" cy="20%" r="60%">
 <stop offset="0%" stop-color="#d99262" stop-opacity="0.18"/>
@@ -369,10 +384,9 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 <clipPath id="clawdiClip"><circle cx="455" cy="352" r="17"/></clipPath>
 </defs>
 
-<!-- Practice glow at top -->
+<!-- ===== TIER 1 — Practice (above boundary) ===== -->
+<g class="diag-tier" data-step="1">
 <ellipse cx="550" cy="100" rx="640" ry="180" fill="url(#practiceGlow)"/>
-
-<!-- ===== PRACTICE TIER (TOP, OUTSIDE BOUNDARY) ===== -->
 <text x="380" y="78" text-anchor="middle" font-family="Montserrat" font-size="34" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lisa Ritchie</text>
 <text x="380" y="102" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="600" letter-spacing="2.4" fill="rgba(246,243,236,0.55)">IP PARTNER</text>
 
@@ -381,17 +395,23 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 
 <text x="550" y="148" text-anchor="middle" font-family="Montserrat" font-size="10.5" letter-spacing="3.2" fill="#d99262" font-weight="600">DECADES OF IP PRACTICE</text>
 <text x="550" y="168" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="13" letter-spacing="0.4" fill="rgba(246,243,236,0.55)">the firm's working knowledge — the irreplaceable bit</text>
+</g>
 
-<!-- ===== PRACTICE → PLATFORM "SERVED BY" ===== -->
+<!-- ===== TIER 2 — SERVED BY arrows + label ===== -->
+<g class="diag-tier" data-step="2">
 <path d="M 380 115 C 400 165, 480 210, 510 252" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
 <path d="M 720 115 C 700 165, 620 210, 590 252" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
 <text x="550" y="220" text-anchor="middle" font-family="Montserrat" font-size="10" letter-spacing="2.6" fill="rgba(217,146,98,0.78)" font-weight="600">SERVED BY</text>
+</g>
 
-<!-- ===== BOUNDARY ===== -->
+<!-- ===== TIER 3 — AI layer boundary ===== -->
+<g class="diag-tier" data-step="3">
 <rect x="20" y="240" width="1060" height="500" rx="20" fill="rgba(217,146,98,0.02)" stroke="rgba(217,146,98,0.22)" stroke-width="1" stroke-dasharray="2 6"/>
 <text x="40" y="262" font-family="Montserrat" font-size="9" letter-spacing="2.6" fill="rgba(217,146,98,0.72)" font-weight="600">— THE PRIVATE AI LAYER · BUILT IN-HOUSE</text>
+</g>
 
-<!-- ===== COMBINED PLATFORM ===== -->
+<!-- ===== TIER 4 — Combined platform (OpenClaw + Microsoft) ===== -->
+<g class="diag-tier" data-step="4">
 <rect x="80" y="280" width="940" height="220" rx="16" fill="url(#platformGradient)" stroke="rgba(217,146,98,0.45)" stroke-width="1.4"/>
 
 <!-- Orchestration zone -->
@@ -410,8 +430,10 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 <!-- Microsoft Private Cloud zone -->
 <text x="550" y="460" text-anchor="middle" font-family="Montserrat" font-size="20" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Microsoft Private Cloud</text>
 <text x="550" y="482" text-anchor="middle" font-family="Montserrat" font-size="10.5" fill="rgba(246,243,236,0.65)">Swiss R&amp;D · Confidential · No training · Data controlled · Zero data retention</text>
+</g>
 
-<!-- ===== PLATFORM → RESOURCES verticals ===== -->
+<!-- ===== TIER 5 — Verticals + resource cards ===== -->
+<g class="diag-tier" data-step="5">
 <path d="M 200 500 L 200 552" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
 <path d="M 550 500 L 550 552" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
 <path d="M 900 500 L 900 552" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
@@ -457,17 +479,20 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 <text x="900" y="650" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Real-time legal sources.</text>
 <text x="900" y="678" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">Direct connections most firms haven't built.</text>
 </g>
+</g>
 
-<!-- ===== INTER-RESOURCE CONNECTIONS ===== -->
+<!-- ===== TIER 6 — Inter-resource connections (CONTEXT, QUERIES) ===== -->
+<g class="diag-tier" data-step="6">
 <line x1="360" y1="632" x2="390" y2="632" stroke="rgba(217,146,98,0.55)" stroke-width="1" stroke-dasharray="2 3"/>
 <text x="375" y="624" text-anchor="middle" font-family="Montserrat" font-size="7.5" letter-spacing="1.6" fill="rgba(217,146,98,0.78)" font-weight="600">CONTEXT</text>
 
 <line x1="710" y1="632" x2="740" y2="632" stroke="rgba(91,130,152,0.55)" stroke-width="1" stroke-dasharray="2 3"/>
 <text x="725" y="624" text-anchor="middle" font-family="Montserrat" font-size="7.5" letter-spacing="1.6" fill="rgba(91,130,152,0.82)" font-weight="600">QUERIES</text>
+</g>
 </svg>
 
 <!-- MOBILE DIAGRAM — three-tier vertical stack -->
-<svg class="diag-svg-mobile reveal" viewBox="0 0 380 1080" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+<svg class="diag-svg-mobile" viewBox="0 0 380 1080" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 <defs>
 <radialGradient id="mPracticeGlow" cx="50%" cy="20%" r="60%"><stop offset="0%" stop-color="#d99262" stop-opacity="0.18"/><stop offset="100%" stop-color="#d99262" stop-opacity="0"/></radialGradient>
 <linearGradient id="mPlatformGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d99262" stop-opacity="0.20"/><stop offset="100%" stop-color="#5b8298" stop-opacity="0.12"/></linearGradient>
@@ -476,9 +501,9 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 <clipPath id="mClawdiClip"><circle cx="80" cy="396" r="14"/></clipPath>
 </defs>
 
+<!-- ===== TIER 1 — Practice ===== -->
+<g class="diag-tier" data-step="1">
 <ellipse cx="190" cy="80" rx="240" ry="120" fill="url(#mPracticeGlow)"/>
-
-<!-- PRACTICE TIER -->
 <text x="190" y="56" text-anchor="middle" font-family="Montserrat" font-size="26" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lisa Ritchie</text>
 <text x="190" y="76" text-anchor="middle" font-family="Montserrat" font-size="8.5" font-weight="600" letter-spacing="2.2" fill="rgba(246,243,236,0.55)">IP PARTNER</text>
 
@@ -487,16 +512,22 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 
 <text x="190" y="174" text-anchor="middle" font-family="Montserrat" font-size="9.5" letter-spacing="2.8" fill="#d99262" font-weight="600">DECADES OF IP PRACTICE</text>
 <text x="190" y="192" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.55)">the firm's working knowledge</text>
+</g>
 
-<!-- SERVED BY -->
+<!-- ===== TIER 2 — SERVED BY ===== -->
+<g class="diag-tier" data-step="2">
 <path d="M 190 200 C 190 230, 190 240, 190 280" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
 <text x="190" y="248" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="2.6" fill="rgba(217,146,98,0.78)" font-weight="600">SERVED BY</text>
+</g>
 
-<!-- BOUNDARY -->
+<!-- ===== TIER 3 — Boundary ===== -->
+<g class="diag-tier" data-step="3">
 <rect x="10" y="280" width="360" height="780" rx="16" fill="rgba(217,146,98,0.02)" stroke="rgba(217,146,98,0.22)" stroke-width="1" stroke-dasharray="2 6"/>
 <text x="22" y="300" font-family="Montserrat" font-size="8" letter-spacing="2.2" fill="rgba(217,146,98,0.72)" font-weight="600">— PRIVATE AI LAYER · BUILT IN-HOUSE</text>
+</g>
 
-<!-- COMBINED PLATFORM -->
+<!-- ===== TIER 4 — Combined platform ===== -->
+<g class="diag-tier" data-step="4">
 <rect x="24" y="316" width="332" height="220" rx="14" fill="url(#mPlatformGradient)" stroke="rgba(217,146,98,0.45)" stroke-width="1.2"/>
 
 <!-- Orchestration zone -->
@@ -515,11 +546,11 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 <text x="190" y="486" text-anchor="middle" font-family="Montserrat" font-size="16" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Microsoft Private Cloud</text>
 <text x="190" y="506" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.65)">Swiss R&amp;D · Confidential · No training</text>
 <text x="190" y="522" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.65)">Data controlled · Zero data retention</text>
+</g>
 
-<!-- PLATFORM → RESOURCES vertical -->
+<!-- ===== TIER 5 — Vertical drop + resource cards (stacked) ===== -->
+<g class="diag-tier" data-step="5">
 <path d="M 190 536 L 190 568" stroke="rgba(217,146,98,0.5)" stroke-width="1" fill="none" stroke-dasharray="3 4"/>
-
-<!-- RESOURCE TIER (stacked) -->
 <!-- Memory -->
 <g>
 <rect x="24" y="568" width="332" height="148" rx="12" fill="url(#mCardGold)" stroke="rgba(217,146,98,0.32)" stroke-width="1"/>
@@ -556,6 +587,7 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 <text x="190" y="998" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.7)">Real-time legal sources.</text>
 <text x="190" y="1026" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.5)">Direct connections most firms haven't built.</text>
 </g>
+</g>
 </svg>
 
 <button class="diag-expand-btn" id="diagExpandBtn" aria-label="Expand diagram">
@@ -568,13 +600,13 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 </section>
 
 <!-- 6 CLOSER -->
-<section class="slab" id="closer">
+<section class="slab" id="closer" data-header-label="In a sentence">
 <div class="frame">
 <div class="body" style="gap:clamp(1rem,2vw,1.6rem)">
 <div class="closer-grid">
 <div>
 <div class="kicker reveal">In a sentence</div>
-<h1 class="display reveal" style="margin-top:.7rem">The model is the moment.<br><em class="acc-serif">The firm's context</em><br>is the asset.</h1>
+<h1 class="display reveal-hero" style="margin-top:.7rem"><span class="line">The model is the moment.</span><span class="line"><em class="acc-serif accent-late">The firm's context</em></span><span class="line">is the asset.</span></h1>
 </div>
 <div>
 <p class="closer-callout reveal">We use whatever tool is sharpest right now. What lasts is the practice we built around it — and the judgment inside it.</p>
@@ -614,9 +646,11 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 
 <script>
 (function(){
-  // IntersectionObserver fade-up
+  var hasIO = 'IntersectionObserver' in window;
+
+  // ── Generic reveal-up (one-shot) ───────────────────────────────
   var revealEls = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
+  if (hasIO) {
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
@@ -627,18 +661,73 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
     revealEls.forEach(function(el){ el.classList.add('in'); });
   }
 
-  // Sticky header colour switch on dark sections
+  // ── Hero reveal: staggered lines + late italic accent ──────────
+  var heroEls = document.querySelectorAll('.reveal-hero');
+  if (hasIO) {
+    var heroIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); heroIO.unobserve(e.target); }
+      });
+    }, {threshold:0.25, rootMargin:'0px 0px -10% 0px'});
+    heroEls.forEach(function(el){ heroIO.observe(el); });
+  } else {
+    heroEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // ── Architecture diagram: tier-by-tier reveal (one-shot) ───────
+  var diagSvgs = document.querySelectorAll('.diag-svg, .diag-svg-mobile');
+  if (hasIO && diagSvgs.length) {
+    var diagIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          e.target.classList.add('diag-revealed');
+          diagIO.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.18});
+    diagSvgs.forEach(function(svg){ diagIO.observe(svg); });
+  } else {
+    diagSvgs.forEach(function(svg){ svg.classList.add('diag-revealed'); });
+  }
+
+  // ── Sticky header: dark-mode toggle + section label morph ──────
   var header = document.getElementById('brandHeader');
+  var headerLabel = header ? header.querySelector('.brand-tag') : null;
   var darkSections = document.querySelectorAll('section.slab.dark');
-  if (header && darkSections.length) {
+  var labelSections = document.querySelectorAll('section.slab[data-header-label]');
+  var currentLabel = headerLabel ? headerLabel.textContent : '';
+
+  function setLabel(next){
+    if (!headerLabel || next === currentLabel) return;
+    currentLabel = next;
+    headerLabel.style.opacity = '0';
+    setTimeout(function(){
+      headerLabel.textContent = next;
+      headerLabel.style.opacity = '1';
+    }, 250);
+  }
+
+  if (header) {
     var raf;
     function check(){
       var hh = header.offsetHeight;
+      // dark-mode toggle
       var anyDark = Array.from(darkSections).some(function(s){
         var r = s.getBoundingClientRect();
         return r.top < hh + 4 && r.bottom > hh + 4;
       });
       header.classList.toggle('dark', anyDark);
+      // active section under the header band → label morph
+      var active = null;
+      var bestTop = -Infinity;
+      labelSections.forEach(function(s){
+        var r = s.getBoundingClientRect();
+        if (r.top <= hh + 40 && r.top > bestTop && r.bottom > hh) {
+          bestTop = r.top;
+          active = s;
+        }
+      });
+      if (active) setLabel(active.dataset.headerLabel);
     }
     window.addEventListener('scroll', function(){
       if (raf) return;
@@ -658,8 +747,10 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
       if (!src) return;
       inner.innerHTML = '';
       var clone = src.cloneNode(true);
-      clone.removeAttribute('class');
+      clone.setAttribute('class', 'diag-revealed');
       clone.style.cssText = 'display:block;width:100%;height:auto;opacity:1;transform:none';
+      // ensure all tiers visible in overlay
+      clone.querySelectorAll('.diag-tier').forEach(function(t){ t.style.opacity = '1'; t.style.transitionDelay = '0ms'; });
       inner.appendChild(clone);
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
