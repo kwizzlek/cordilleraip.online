@@ -158,7 +158,7 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .reveal.in{opacity:1;transform:translateY(0)}
 
 /* DIAGRAM TIER REVEAL — one-shot, sequential 180ms apart */
-.diag-svg .diag-tier,.diag-svg-mobile .diag-tier{opacity:0;transition:opacity .5s ease-out}
+.diag-svg .diag-tier,.diag-svg-mobile .diag-tier{opacity:0;transition:opacity .65s ease-out}
 .diag-svg.diag-revealed .diag-tier,.diag-svg-mobile.diag-revealed .diag-tier{opacity:1}
 .diag-svg.diag-revealed .diag-tier[data-step="1"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="1"]{transition-delay:0ms}
 .diag-svg.diag-revealed .diag-tier[data-step="2"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="2"]{transition-delay:180ms}
@@ -276,8 +276,8 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 <div class="body" style="justify-content:flex-start">
 <div class="cover-grid">
 <h1 class="display reveal-hero"><span class="line">Task AI is impressive.</span><span class="line"><em class="acc-serif accent-late">Firm-context AI</em></span><span class="line">is the real shift.</span></h1>
-<p class="cover-statement">Remarkable tools are now available to everyone. The advantage lives in what surrounds them.</p>
-<p class="cover-boutique">Being a specialist boutique, we outpace peers many times our size. No committees. No IT roadmap two quarters behind. The next change to how we work is already underway.</p>
+<p class="cover-statement reveal">Remarkable tools are now available to everyone. The advantage lives in what surrounds them.</p>
+<p class="cover-boutique reveal">Being a specialist boutique, we outpace peers many times our size. No committees. No IT roadmap two quarters behind. The next change to how we work is already underway.</p>
 </div>
 </div>
 </div>
@@ -675,19 +675,27 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
   }
 
   // ── Architecture diagram: tier-by-tier reveal (one-shot) ───────
-  var diagSvgs = document.querySelectorAll('.diag-svg, .diag-svg-mobile');
-  if (hasIO && diagSvgs.length) {
-    var diagIO = new IntersectionObserver(function(entries){
+  // Desktop diagram fires when ~35% in view (so the user is actually looking
+  // at it, not when it peeks from below). Mobile fires earlier — its diagram
+  // is taller (vertical stack), so a small portion visible is enough.
+  var diagDesktop = document.querySelector('.diag-svg');
+  var diagMobile = document.querySelector('.diag-svg-mobile');
+  function makeDiagIO(threshold){
+    return new IntersectionObserver(function(entries){
       entries.forEach(function(e){
-        if (e.isIntersecting) {
+        if (e.isIntersecting && e.target.getBoundingClientRect().height > 0) {
           e.target.classList.add('diag-revealed');
-          diagIO.unobserve(e.target);
+          this.unobserve(e.target);
         }
-      });
-    }, {threshold:0.18});
-    diagSvgs.forEach(function(svg){ diagIO.observe(svg); });
+      }, this);
+    }, {threshold:threshold});
+  }
+  if (hasIO) {
+    if (diagDesktop) makeDiagIO(0.5).observe(diagDesktop);
+    if (diagMobile) makeDiagIO(0.15).observe(diagMobile);
   } else {
-    diagSvgs.forEach(function(svg){ svg.classList.add('diag-revealed'); });
+    if (diagDesktop) diagDesktop.classList.add('diag-revealed');
+    if (diagMobile) diagMobile.classList.add('diag-revealed');
   }
 
   // ── Sticky header: dark-mode toggle + section label morph ──────
