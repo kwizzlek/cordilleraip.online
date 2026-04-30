@@ -87,8 +87,10 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 
 /* COVER — single column, top-anchored */
 .cover-grid{display:flex;flex-direction:column;gap:clamp(1.4rem,3vw,2.4rem);width:100%;align-items:flex-start;padding-top:clamp(1rem,3vh,3rem)}
-.cover-grid h1.display{max-width:18ch;text-align:left;margin-bottom:clamp(.4rem,1.2vw,1rem)}
+.cover-grid h1.display{max-width:18ch;text-align:left;margin-bottom:clamp(.2rem,.6vw,.5rem)}
 .cover-grid > .lede{max-width:60ch}
+.cover-grid > .cover-def{font-family:var(--sans);font-size:clamp(.82rem,.95vw,.92rem);line-height:1.55;color:rgba(12,26,42,.6);font-style:normal;font-weight:400;margin:0;max-width:62ch}
+.cover-grid > .cover-def .cover-def-key{font-style:normal;font-weight:600;color:var(--copper);letter-spacing:.04em;text-transform:uppercase;font-size:.92em;margin-right:.35em}
 
 /* HERO REVEAL — staggered lines + late italic accent (cover, architecture, closer) */
 .reveal-hero .line{display:block;opacity:0;transform:translateY(8px);transition:opacity .4s ease-out,transform .4s ease-out}
@@ -98,11 +100,12 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .reveal-hero.in .line:nth-child(3){transition-delay:160ms}
 .reveal-hero .accent-late{display:inline-block;opacity:0;transform:scale(.96);transform-origin:left center;transition:opacity .5s ease-out 280ms,transform .5s ease-out 280ms}
 .reveal-hero.in .accent-late{opacity:1;transform:scale(1)}
-.cover-grid > p.lede{opacity:0;transform:translateY(8px);transition:opacity .55s ease-out,transform .55s ease-out}
-.cover-grid > p.lede.in{opacity:1;transform:translateY(0)}
-.cover-grid > p.lede:nth-of-type(1).in{transition-delay:300ms}
-.cover-grid > p.lede:nth-of-type(2).in{transition-delay:440ms}
-.cover-grid > p.lede:nth-of-type(3).in{transition-delay:580ms}
+.cover-grid > p.cover-def,.cover-grid > p.lede{opacity:0;transform:translateY(8px);transition:opacity .55s ease-out,transform .55s ease-out}
+.cover-grid > p.cover-def.in,.cover-grid > p.lede.in{opacity:1;transform:translateY(0)}
+.cover-grid > p.cover-def:nth-of-type(1).in{transition-delay:220ms}
+.cover-grid > p.lede:nth-of-type(2).in{transition-delay:360ms}
+.cover-grid > p.lede:nth-of-type(3).in{transition-delay:500ms}
+.cover-grid > p.lede:nth-of-type(4).in{transition-delay:640ms}
 
 /* CONTRAST */
 .contrast-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule-strong);margin-top:clamp(.8rem,1.6vw,1.2rem);width:100%}
@@ -301,7 +304,8 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="frame">
 <div class="body" style="justify-content:flex-start">
 <div class="cover-grid">
-<h1 class="display reveal-hero"><span class="line">Task AI is impressive.</span><span class="line"><em class="acc-serif accent-late">Firm-context AI</em></span><span class="line">is the real shift.</span></h1>
+<h1 class="display reveal-hero"><span class="line">Task AI is impressive.</span><span class="line"><em class="acc-serif accent-late">Sovereign AI</em></span><span class="line">is the real shift.</span></h1>
+<p class="cover-def reveal"><em class="cover-def-key">Sovereign:</em> auditable, under the firm's control, explicit about what it does, what it stores, who it talks to, and how it works.</p>
 <p class="lede reveal">Elite IP judgment, amplified — at every stage of every matter. Less overhead. More of your spend on the work that counts.</p>
 <p class="lede reveal">Remarkable tools are now available to everyone. The advantage lives in what surrounds them.</p>
 <p class="lede reveal">As a specialist boutique, we outpace the market — minimal overhead, fast iteration, and no institutional weight slowing the next move.</p>
@@ -324,12 +328,12 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="contrast-cell">
 <div class="lab">The unit of value</div>
 <div class="pair"><span class="from">Output</span><span class="arr">→</span><span class="to">Delivery</span></div>
-<p>Drafts and summaries are table stakes. <strong>The real advantage</strong> is moving work between the right lawyer, the right matter, the right moment.</p>
+<p>Drafts and summaries are table stakes. <strong>The real advantage</strong> is not just moving work — it's analysing, enriching, and supporting it at the right stage of every matter, with the right tools already in place.</p>
 </div>
 <div class="contrast-cell">
 <div class="lab">The centre of gravity</div>
 <div class="pair"><span class="from">Model</span><span class="arr">→</span><span class="to">Process</span></div>
-<p>Which tool is best today is <strong>the wrong question</strong>. How the firm holds its context as tools change. That's the durable one.</p>
+<p>Which tool is best today is <strong>the wrong question</strong>. The right one is whether the firm's system — the workflows, safeguards, and context around the tools — can move with them, without starting from scratch every time something better arrives.</p>
 </div>
 </div>
 <p class="statement reveal" style="margin-top:1.6rem">Today's AI does the visible task well. What matters more is what surrounds it. How the work is shaped, who reviews it, what came before.</p>
@@ -342,12 +346,12 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="frame">
 <div class="body">
 <div class="kicker reveal">In practice</div>
-<p class="lede reveal" style="margin-top:1.1rem">'AI-native' has become a label firms stick on a chatbot and call it a strategy. Our version is more boring and more useful: how the work actually executes, how context is checked, how human judgment stays in front. Four things we built around.</p>
+<p class="lede reveal" style="margin-top:1.1rem">'AI-native' has become a label AI vendors stick on black-box products they sell to law firms — systems where no one can see what is stored, how it reasons, or whether anyone is actually using it — and call that a strategy. Our version is more boring and more useful: how the work actually executes, how context is checked, how human judgment stays in front. Four things we built around.</p>
 <div class="pillars reveal">
 <div class="pillar"><div class="num">01</div><h5>Continuity</h5><p>The system isn't re-briefed from scratch. Less repetition, more momentum on live matters.</p></div>
-<div class="pillar"><div class="num">02</div><h5>Coordination</h5><p>The right person sees the right thing at the right stage. Not just better drafting.</p></div>
+<div class="pillar"><div class="num">02</div><h5>Coordination</h5><p>The right person sees the right thing at the right stage — backed by deep research, analytical support, and repeatable skills built from our team's real case experience and refined continuously.</p></div>
 <div class="pillar"><div class="num">03</div><h5>Density</h5><p>Less time on admin and handoffs. More of your spend on legal judgment.</p></div>
-<div class="pillar"><div class="num">04</div><h5>Adaptability</h5><p>No one knows what AI looks like in two years. We outpace firms many times our size by changing how we work when something better lands. Not at the next strategy review.</p></div>
+<div class="pillar"><div class="num">04</div><h5>Adaptability</h5><p>No one knows what AI looks like in two years. We iterate, learn, and respond as the tools evolve — with full visibility into what is working and the freedom to change it. Not at the next strategy review.</p></div>
 </div>
 <p class="statement reveal" style="margin-top:1.6rem">Clients aren't paying for software. You're getting faster, deeper analytical support, and more of our senior team's judgment focused exactly where it needs to be: the nuance, the risk, the call.</p>
 </div>
@@ -365,12 +369,12 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="card">
 <span class="lab">Layer one</span>
 <h3>The lawyer twin</h3>
-<p>Lisa's working style. Her analytical patterns. What she's done before, who she's working with now. The system stops re-explaining the same lawyer to itself every Monday.</p>
+<p>Lisa's style, judgment patterns, and case history — encoded and refined from real experience. The skills built here aren't generic: they reflect how Lisa researches a conflict, structures guidance, and reads a trademark risk. Each is checked against live registers and case law, sharpened continuously, and brought to bear at full depth from the first line of every matter.</p>
 </div>
 <div class="card">
 <span class="lab">Layer two</span>
 <h3>The firm twin</h3>
-<p>How the firm runs. Matter status. Client expectations. Confidentiality choices. The shared layer that keeps the firm's standards consistent across every piece of work.</p>
+<p>How the firm runs. Matter status. Client expectations. Confidentiality choices. The shared layer that keeps the firm's standards consistent — and puts the same depth of tooling behind every lawyer on every matter.</p>
 </div>
 </div>
 <p class="statement reveal" style="margin-top:1.6rem">We didn't tie the practice to a single tool. We built the layer where the firm's working knowledge lives — so whatever comes next, the firm's workflows are already there.</p>
