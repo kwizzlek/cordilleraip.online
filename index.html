@@ -157,7 +157,22 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
 
-/* DIAGRAM TIER REVEAL — one-shot, sequential 180ms apart */
+/* PINNED ARCHITECTURE — desktop only. Section becomes a tall scroll container; pin-stage sticks. */
+section.slab.architecture-pinned{display:block;padding:0;min-height:calc(100dvh - 60px)}
+section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column;width:100%}
+@media (min-width:861px){
+  section.slab.architecture-pinned{min-height:320vh}
+  section.slab.architecture-pinned > .pin-stage{position:sticky;top:0;height:100dvh;overflow:hidden}
+  section.slab.architecture-pinned > .pin-stage > .frame{flex:1;min-height:0;padding-top:clamp(60px,9vh,100px);padding-bottom:clamp(1rem,3vw,2rem)}
+  section.slab.architecture-pinned > .pin-stage > .frame > .body{justify-content:center;padding:0;flex:1;min-height:0}
+  section.slab.architecture-pinned > .pin-stage > .frame > .body > .diag-stage{flex:1;min-height:0;justify-content:center;gap:.8rem}
+  section.slab.architecture-pinned > .pin-stage > .frame > .body > .diag-stage > .diag-svg{max-height:60dvh;height:auto;width:auto}
+  /* While pinning is active, JS sets each tier's opacity directly per scroll progress.
+     Disable CSS transitions so JS opacity values apply instantly (smooth scroll-driven feel). */
+  section.slab.architecture-pinned.pin-active .diag-svg .diag-tier{transition:none}
+}
+
+/* DIAGRAM TIER REVEAL — one-shot, sequential 180ms apart (mobile + reduced-motion fallback) */
 .diag-svg .diag-tier,.diag-svg-mobile .diag-tier{opacity:0;transition:opacity .65s ease-out}
 .diag-svg.diag-revealed .diag-tier,.diag-svg-mobile.diag-revealed .diag-tier{opacity:1}
 .diag-svg.diag-revealed .diag-tier[data-step="1"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="1"]{transition-delay:0ms}
@@ -351,8 +366,9 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 </div>
 </section>
 
-<!-- 5 ARCHITECTURE — three-tier diagram per sketch -->
-<section class="slab dark" data-header-label="Architecture">
+<!-- 5 ARCHITECTURE — three-tier diagram per sketch (desktop pins) -->
+<section class="slab dark architecture-pinned" data-header-label="Architecture">
+<div class="pin-stage">
 <div class="frame">
 <div class="body" style="gap:.4rem">
 <div class="diag-stage">
@@ -597,6 +613,7 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 </div>
 </div>
 </div>
+</div>
 </section>
 
 <!-- 6 CLOSER -->
@@ -674,12 +691,15 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
     heroEls.forEach(function(el){ el.classList.add('in'); });
   }
 
-  // ── Architecture diagram: tier-by-tier reveal (one-shot) ───────
-  // Desktop diagram fires when ~35% in view (so the user is actually looking
-  // at it, not when it peeks from below). Mobile fires earlier — its diagram
-  // is taller (vertical stack), so a small portion visible is enough.
+  // ── Architecture diagram: pinned scroll-driven build (desktop) /
+  //    one-shot IO reveal (mobile + reduced-motion fallback) ─────
   var diagDesktop = document.querySelector('.diag-svg');
   var diagMobile = document.querySelector('.diag-svg-mobile');
+  var archSec = document.querySelector('.architecture-pinned');
+  var desktopMQ = window.matchMedia('(min-width: 861px)');
+  var motionMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var desktopTiers = diagDesktop ? diagDesktop.querySelectorAll('.diag-tier') : [];
+
   function makeDiagIO(threshold){
     return new IntersectionObserver(function(entries){
       entries.forEach(function(e){
@@ -690,13 +710,78 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
       }, this);
     }, {threshold:threshold});
   }
-  if (hasIO) {
-    if (diagDesktop) makeDiagIO(0.5).observe(diagDesktop);
-    if (diagMobile) makeDiagIO(0.15).observe(diagMobile);
-  } else {
-    if (diagDesktop) diagDesktop.classList.add('diag-revealed');
-    if (diagMobile) diagMobile.classList.add('diag-revealed');
+
+  // Pinning state
+  var pinActive = false, pinRaf = null;
+  function updatePinned(){
+    pinRaf = null;
+    if (!archSec || !pinActive) return;
+    var rect = archSec.getBoundingClientRect();
+    var total = archSec.offsetHeight - window.innerHeight;
+    if (total <= 0) return;
+    var scrolled = -rect.top;
+    var progress = Math.max(0, Math.min(1, scrolled / total));
+    // 6 tiers staggered: pre-roll 8%, each tier slice 13% wide with 10% fade,
+    // last tier finishes at ~83%; after that all stay at 1 until unpin.
+    var startOffset = 0.08, sliceWidth = 0.13, fadeWidth = 0.10;
+    desktopTiers.forEach(function(tier, i){
+      var start = startOffset + i * sliceWidth;
+      var t = (progress - start) / fadeWidth;
+      tier.style.opacity = Math.max(0, Math.min(1, t));
+    });
   }
+  function onPinScroll(){
+    if (!pinRaf) pinRaf = requestAnimationFrame(updatePinned);
+  }
+  function enablePinning(){
+    if (pinActive || !archSec) return;
+    pinActive = true;
+    archSec.classList.add('pin-active');
+    // Strip any IO-added .diag-revealed so JS controls opacity cleanly
+    if (diagDesktop) diagDesktop.classList.remove('diag-revealed');
+    window.addEventListener('scroll', onPinScroll, {passive:true});
+    updatePinned();
+  }
+  function disablePinning(){
+    if (!pinActive || !archSec) return;
+    pinActive = false;
+    archSec.classList.remove('pin-active');
+    window.removeEventListener('scroll', onPinScroll);
+    desktopTiers.forEach(function(t){ t.style.opacity = ''; });
+  }
+
+  function applyDiagPolicy(){
+    var shouldPin = desktopMQ.matches && !motionMQ.matches && archSec;
+    if (shouldPin) {
+      enablePinning();
+    } else {
+      disablePinning();
+      // Non-pinning fallback: IO-based reveal (or immediate if no IO)
+      if (hasIO) {
+        if (diagDesktop && !diagDesktop.classList.contains('diag-revealed')) {
+          makeDiagIO(desktopMQ.matches ? 0.4 : 0.15).observe(diagDesktop);
+        }
+        if (diagMobile && !diagMobile.classList.contains('diag-revealed')) {
+          makeDiagIO(0.15).observe(diagMobile);
+        }
+      } else {
+        if (diagDesktop) diagDesktop.classList.add('diag-revealed');
+        if (diagMobile) diagMobile.classList.add('diag-revealed');
+      }
+    }
+  }
+
+  applyDiagPolicy();
+  // Mobile SVG always observed even when desktop pins (handles late viewport resize)
+  if (hasIO && diagMobile && !diagMobile.classList.contains('diag-revealed')) {
+    makeDiagIO(0.15).observe(diagMobile);
+  }
+  // Re-apply on breakpoint or motion-preference change
+  function mqChange(){ applyDiagPolicy(); }
+  if (desktopMQ.addEventListener) desktopMQ.addEventListener('change', mqChange);
+  else if (desktopMQ.addListener) desktopMQ.addListener(mqChange);
+  if (motionMQ.addEventListener) motionMQ.addEventListener('change', mqChange);
+  else if (motionMQ.addListener) motionMQ.addListener(mqChange);
 
   // ── Sticky header: dark-mode toggle + section label morph ──────
   var header = document.getElementById('brandHeader');
