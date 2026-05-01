@@ -152,11 +152,11 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .twin .card p{margin:0;color:var(--ink-2);font-size:.88rem;line-height:1.5}
 
 /* DIAGRAM */
-.diag-stage{display:flex;flex-direction:column;align-items:center;width:100%;gap:1.2rem}
+.diag-stage{display:flex;flex-direction:column;align-items:center;width:100%;max-width:100%;padding:0;gap:1.2rem}
 .diag-head{text-align:center;max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem;align-items:center}
 .diag-head .kicker{align-self:center}
 .diag-head .lede{margin:0 auto;text-align:center;color:rgba(246,243,236,.8)}
-.diag-svg{width:min(1140px,100%);height:auto;flex:0 0 auto}
+.diag-svg{width:100%;max-width:100%;height:auto;display:block;flex:0 0 auto}
 .diag-svg-mobile{display:none}
 
 /* CLOSER */
@@ -170,7 +170,7 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .clawdi-inline{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0;display:inline-block;vertical-align:middle;border:1px solid rgba(12,26,42,.15)}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.85rem 1.7rem;background:var(--ink);color:var(--paper);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:4px;font-weight:600;transition:background .2s ease;align-self:flex-start;margin-top:.4rem}
 .btn:hover{background:var(--copper)}
-.contact-cta{align-self:flex-start;margin-top:.4rem;color:var(--copper);font-family:var(--sans);font-size:clamp(.9rem,1vw,1rem);font-weight:500;letter-spacing:.08em;text-decoration:none;border-bottom:1px solid var(--copper);padding-bottom:2px;transition:opacity .15s ease}
+.contact-cta{display:inline-block;align-self:flex-start;margin-top:1rem;color:var(--copper);font-family:var(--sans);font-size:clamp(.9rem,1vw,1rem);font-weight:500;letter-spacing:.08em;text-decoration:none;border-bottom:1px solid var(--copper);padding-bottom:2px;transition:opacity .15s ease}
 .contact-cta:hover{opacity:.7}
 .trust-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule-strong);margin-top:clamp(1.4rem,2.5vw,2rem);width:100%}
 .trust-strip .contrast-cell{padding:clamp(1rem,1.6vw,1.4rem)}
@@ -190,31 +190,12 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .float-foot-cta:hover{color:rgba(246,243,236,1)}
 @media (max-width:480px){.float-foot-hide{display:none}}
 
-/* PINNED ARCHITECTURE — desktop only. Section becomes a tall scroll container; pin-stage sticks.
-   MUST override sticky so its inner pin-stage can pin without conflict. */
-section.slab.architecture-pinned{display:block;padding:0;min-height:calc(100dvh - 60px);position:relative;top:auto;animation:none}
+/* ARCHITECTURE — normal-flow section, diagram immediately fully visible (no tier reveal) */
+section.slab.architecture-pinned{display:block;padding:0;position:relative;top:auto;animation:none}
 section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column;width:100%}
-@media (min-width:861px){
-  section.slab.architecture-pinned{min-height:320vh}
-  section.slab.architecture-pinned > .pin-stage{position:sticky;top:0;height:100dvh;overflow:hidden}
-  section.slab.architecture-pinned > .pin-stage > .frame{flex:1;min-height:0;padding-top:clamp(60px,9vh,100px);padding-bottom:clamp(1rem,3vw,2rem)}
-  section.slab.architecture-pinned > .pin-stage > .frame > .body{justify-content:center;padding:0;flex:1;min-height:0}
-  section.slab.architecture-pinned > .pin-stage > .frame > .body > .diag-stage{flex:1;min-height:0;justify-content:center;gap:.8rem}
-  section.slab.architecture-pinned > .pin-stage > .frame > .body > .diag-stage > .diag-svg{max-height:60dvh;height:auto;width:auto}
-  /* While pinning is active, JS sets each tier's opacity directly per scroll progress.
-     Disable CSS transitions so JS opacity values apply instantly (smooth scroll-driven feel). */
-  section.slab.architecture-pinned.pin-active .diag-svg .diag-tier{transition:none}
-}
 
-/* DIAGRAM TIER REVEAL — one-shot, sequential 180ms apart (mobile + reduced-motion fallback) */
-.diag-svg .diag-tier,.diag-svg-mobile .diag-tier{opacity:0;transition:opacity .65s ease-out}
-.diag-svg.diag-revealed .diag-tier,.diag-svg-mobile.diag-revealed .diag-tier{opacity:1}
-.diag-svg.diag-revealed .diag-tier[data-step="1"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="1"]{transition-delay:0ms}
-.diag-svg.diag-revealed .diag-tier[data-step="2"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="2"]{transition-delay:180ms}
-.diag-svg.diag-revealed .diag-tier[data-step="3"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="3"]{transition-delay:360ms}
-.diag-svg.diag-revealed .diag-tier[data-step="4"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="4"]{transition-delay:540ms}
-.diag-svg.diag-revealed .diag-tier[data-step="5"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="5"]{transition-delay:720ms}
-.diag-svg.diag-revealed .diag-tier[data-step="6"],.diag-svg-mobile.diag-revealed .diag-tier[data-step="6"]{transition-delay:900ms}
+/* DIAGRAM TIERS — always fully visible, no reveal animation */
+.diag-svg .diag-tier,.diag-svg-mobile .diag-tier{opacity:1}
 
 /* HEADER LABEL CROSS-FADE */
 .brand-tag{transition:opacity .25s ease,color .35s ease}
@@ -483,7 +464,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 
 <!-- Runs on divider -->
 <line x1="380" y1="428" x2="510" y2="428" stroke="rgba(217,146,98,0.30)" stroke-width="1"/>
-<text x="550" y="432" text-anchor="middle" font-family="Montserrat" font-size="10" letter-spacing="0.3" fill="rgba(217,146,98,0.72)" font-weight="500">Runs on</text>
+<text x="550" y="432" text-anchor="middle" font-family="Montserrat" font-size="10" letter-spacing="0.3" fill="rgba(246,243,236,0.85)" font-weight="500">Runs on</text>
 <line x1="590" y1="428" x2="720" y2="428" stroke="rgba(217,146,98,0.30)" stroke-width="1"/>
 
 <!-- Microsoft Private Cloud zone -->
@@ -511,7 +492,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <!-- CENTRE: Model Flexibility (neutral) -->
 <g>
 <rect x="390" y="552" width="320" height="160" rx="14" fill="rgba(246,243,236,0.04)" stroke="rgba(246,243,236,0.14)" stroke-width="1"/>
-<text x="550" y="578" text-anchor="middle" font-family="Montserrat" font-size="10.5" font-weight="500" letter-spacing="0.4" fill="rgba(246,243,236,0.65)">Model flexibility</text>
+<text x="550" y="578" text-anchor="middle" font-family="Montserrat" font-size="10.5" font-weight="500" letter-spacing="0.4" fill="rgba(246,243,236,0.85)">Model flexibility</text>
 
 <rect x="408" y="596" width="92" height="48" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
 <text x="454" y="617" text-anchor="middle" font-family="Montserrat" font-size="11" font-weight="500" fill="rgba(246,243,236,0.92)">OpenAI</text>
@@ -525,14 +506,14 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <text x="646" y="617" text-anchor="middle" font-family="Montserrat" font-size="11" font-weight="500" fill="rgba(246,243,236,0.92)">Google</text>
 <text x="646" y="631" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.55)">Gemini</text>
 
-<text x="550" y="665" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">No training, Zero Data Retention agreements in place</text>
+<text x="550" y="665" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">No training, Zero Data Retention, enterprise agreements in place</text>
 <text x="550" y="683" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.45)">Swap models without rebuilding context</text>
 </g>
 
 <!-- RIGHT: Legal Intelligence (neutral) -->
 <g>
 <rect x="740" y="552" width="320" height="160" rx="14" fill="rgba(246,243,236,0.04)" stroke="rgba(246,243,236,0.14)" stroke-width="1"/>
-<text x="900" y="578" text-anchor="middle" font-family="Montserrat" font-size="10.5" font-weight="500" letter-spacing="0.4" fill="rgba(246,243,236,0.65)">Legal intelligence</text>
+<text x="900" y="578" text-anchor="middle" font-family="Montserrat" font-size="10.5" font-weight="500" letter-spacing="0.4" fill="rgba(246,243,236,0.85)">Legal intelligence</text>
 <text x="900" y="608" text-anchor="middle" font-family="Montserrat" font-size="17" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Live registers · databases</text>
 <text x="900" y="632" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Trademark APIs · case law.</text>
 <text x="900" y="650" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Real-time legal sources.</text>
@@ -543,10 +524,10 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <!-- ===== TIER 6 — Inter-resource connections (Context, Queries) ===== -->
 <g class="diag-tier" data-step="6">
 <line x1="360" y1="632" x2="390" y2="632" stroke="rgba(217,146,98,0.55)" stroke-width="1" stroke-dasharray="2 3"/>
-<text x="375" y="624" text-anchor="middle" font-family="Montserrat" font-size="8" letter-spacing="0.3" fill="rgba(217,146,98,0.75)" font-weight="500">Context</text>
+<text x="375" y="624" text-anchor="middle" font-family="Montserrat" font-size="8" letter-spacing="0.3" fill="rgba(246,243,236,0.85)" font-weight="500">Context</text>
 
 <line x1="710" y1="632" x2="740" y2="632" stroke="rgba(246,243,236,0.32)" stroke-width="1" stroke-dasharray="2 3"/>
-<text x="725" y="624" text-anchor="middle" font-family="Montserrat" font-size="8" letter-spacing="0.3" fill="rgba(246,243,236,0.6)" font-weight="500">Queries</text>
+<text x="725" y="624" text-anchor="middle" font-family="Montserrat" font-size="8" letter-spacing="0.3" fill="rgba(246,243,236,0.85)" font-weight="500">Queries</text>
 </g>
 </svg>
 
@@ -598,7 +579,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 
 <!-- Runs on divider -->
 <line x1="100" y1="454" x2="160" y2="454" stroke="rgba(217,146,98,0.30)" stroke-width="1"/>
-<text x="190" y="458" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="0.3" fill="rgba(217,146,98,0.72)" font-weight="500">Runs on</text>
+<text x="190" y="458" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="0.3" fill="rgba(246,243,236,0.85)" font-weight="500">Runs on</text>
 <line x1="220" y1="454" x2="280" y2="454" stroke="rgba(217,146,98,0.30)" stroke-width="1"/>
 
 <!-- Microsoft Private Cloud zone -->
@@ -623,7 +604,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <!-- Models (neutral) -->
 <g>
 <rect x="24" y="734" width="332" height="148" rx="12" fill="rgba(246,243,236,0.04)" stroke="rgba(246,243,236,0.14)" stroke-width="1"/>
-<text x="190" y="758" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="0.3" fill="rgba(246,243,236,0.65)">Model flexibility</text>
+<text x="190" y="758" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="0.3" fill="rgba(246,243,236,0.85)">Model flexibility</text>
 <rect x="48" y="772" width="92" height="44" rx="7" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
 <text x="94" y="790" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="500" fill="rgba(246,243,236,0.92)">OpenAI</text>
 <text x="94" y="804" text-anchor="middle" font-family="Montserrat" font-size="8" fill="rgba(246,243,236,0.55)">GPT</text>
@@ -633,14 +614,15 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <rect x="240" y="772" width="92" height="44" rx="7" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.10)"/>
 <text x="286" y="790" text-anchor="middle" font-family="Montserrat" font-size="10" font-weight="500" fill="rgba(246,243,236,0.92)">Google</text>
 <text x="286" y="804" text-anchor="middle" font-family="Montserrat" font-size="8" fill="rgba(246,243,236,0.55)">Gemini</text>
-<text x="190" y="836" text-anchor="middle" font-family="Montserrat" font-size="9.5" fill="rgba(246,243,236,0.65)">No training, Zero Data Retention agreements</text>
-<text x="190" y="858" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.45)">Swap models without rebuilding context</text>
+<text x="190" y="832" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.85)">No training, Zero Data Retention,</text>
+<text x="190" y="846" text-anchor="middle" font-family="Montserrat" font-size="9" fill="rgba(246,243,236,0.85)">enterprise agreements in place</text>
+<text x="190" y="870" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.45)">Swap models without rebuilding context</text>
 </g>
 
 <!-- Legal (neutral) -->
 <g>
 <rect x="24" y="900" width="332" height="148" rx="12" fill="rgba(246,243,236,0.04)" stroke="rgba(246,243,236,0.14)" stroke-width="1"/>
-<text x="190" y="924" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="0.3" fill="rgba(246,243,236,0.65)">Legal intelligence</text>
+<text x="190" y="924" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="0.3" fill="rgba(246,243,236,0.85)">Legal intelligence</text>
 <text x="190" y="954" text-anchor="middle" font-family="Montserrat" font-size="15" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Live registers · databases</text>
 <text x="190" y="980" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Trademark APIs · case law.</text>
 <text x="190" y="998" text-anchor="middle" font-family="Montserrat" font-size="10" fill="rgba(246,243,236,0.65)">Real-time legal sources.</text>
@@ -756,97 +738,16 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
     heroEls.forEach(function(el){ el.classList.add('in'); });
   }
 
-  // ── Architecture diagram: pinned scroll-driven build (desktop) /
-  //    one-shot IO reveal (mobile + reduced-motion fallback) ─────
+  // ── Architecture diagram: immediately fully visible (Round 6).
+  //    No pinning, no tier reveal — diagram shows in full when section enters view.
+  //    Strip any leftover inline opacity from earlier versions just in case.
   var diagDesktop = document.querySelector('.diag-svg');
   var diagMobile = document.querySelector('.diag-svg-mobile');
-  var archSec = document.querySelector('.architecture-pinned');
-  var desktopMQ = window.matchMedia('(min-width: 861px)');
-  var motionMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var desktopTiers = diagDesktop ? diagDesktop.querySelectorAll('.diag-tier') : [];
-
-  function makeDiagIO(threshold){
-    return new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if (e.isIntersecting && e.target.getBoundingClientRect().height > 0) {
-          e.target.classList.add('diag-revealed');
-          this.unobserve(e.target);
-        }
-      }, this);
-    }, {threshold:threshold});
-  }
-
-  // Pinning state
-  var pinActive = false, pinRaf = null;
-  function updatePinned(){
-    pinRaf = null;
-    if (!archSec || !pinActive) return;
-    var rect = archSec.getBoundingClientRect();
-    var total = archSec.offsetHeight - window.innerHeight;
-    if (total <= 0) return;
-    var scrolled = -rect.top;
-    var progress = Math.max(0, Math.min(1, scrolled / total));
-    // 6 tiers staggered: pre-roll 8%, each tier slice 13% wide with 10% fade,
-    // last tier finishes at ~83%; after that all stay at 1 until unpin.
-    var startOffset = 0.08, sliceWidth = 0.13, fadeWidth = 0.10;
-    desktopTiers.forEach(function(tier, i){
-      var start = startOffset + i * sliceWidth;
-      var t = (progress - start) / fadeWidth;
-      tier.style.opacity = Math.max(0, Math.min(1, t));
-    });
-  }
-  function onPinScroll(){
-    if (!pinRaf) pinRaf = requestAnimationFrame(updatePinned);
-  }
-  function enablePinning(){
-    if (pinActive || !archSec) return;
-    pinActive = true;
-    archSec.classList.add('pin-active');
-    // Strip any IO-added .diag-revealed so JS controls opacity cleanly
-    if (diagDesktop) diagDesktop.classList.remove('diag-revealed');
-    window.addEventListener('scroll', onPinScroll, {passive:true});
-    updatePinned();
-  }
-  function disablePinning(){
-    if (!pinActive || !archSec) return;
-    pinActive = false;
-    archSec.classList.remove('pin-active');
-    window.removeEventListener('scroll', onPinScroll);
-    desktopTiers.forEach(function(t){ t.style.opacity = ''; });
-  }
-
-  function applyDiagPolicy(){
-    var shouldPin = desktopMQ.matches && !motionMQ.matches && archSec;
-    if (shouldPin) {
-      enablePinning();
-    } else {
-      disablePinning();
-      // Non-pinning fallback: IO-based reveal (or immediate if no IO)
-      if (hasIO) {
-        if (diagDesktop && !diagDesktop.classList.contains('diag-revealed')) {
-          makeDiagIO(desktopMQ.matches ? 0.4 : 0.15).observe(diagDesktop);
-        }
-        if (diagMobile && !diagMobile.classList.contains('diag-revealed')) {
-          makeDiagIO(0.15).observe(diagMobile);
-        }
-      } else {
-        if (diagDesktop) diagDesktop.classList.add('diag-revealed');
-        if (diagMobile) diagMobile.classList.add('diag-revealed');
-      }
-    }
-  }
-
-  applyDiagPolicy();
-  // Mobile SVG always observed even when desktop pins (handles late viewport resize)
-  if (hasIO && diagMobile && !diagMobile.classList.contains('diag-revealed')) {
-    makeDiagIO(0.15).observe(diagMobile);
-  }
-  // Re-apply on breakpoint or motion-preference change
-  function mqChange(){ applyDiagPolicy(); }
-  if (desktopMQ.addEventListener) desktopMQ.addEventListener('change', mqChange);
-  else if (desktopMQ.addListener) desktopMQ.addListener(mqChange);
-  if (motionMQ.addEventListener) motionMQ.addEventListener('change', mqChange);
-  else if (motionMQ.addListener) motionMQ.addListener(mqChange);
+  [diagDesktop, diagMobile].forEach(function(svg){
+    if (!svg) return;
+    svg.classList.remove('diag-revealed');
+    Array.from(svg.querySelectorAll('.diag-tier')).forEach(function(t){ t.style.opacity = ''; });
+  });
 
   // ── Sticky header: dark-mode toggle + section label morph ──────
   var header = document.getElementById('brandHeader');
