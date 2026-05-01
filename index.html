@@ -47,8 +47,8 @@ body{min-height:100dvh;overflow-x:clip;padding-bottom:36px}
 .brand .mark{width:clamp(22px,2.2vw,28px);height:clamp(22px,2.2vw,28px);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--copper);transition:color .35s ease}
 .brand-header.dark .brand .mark{color:var(--copper-2)}
 .brand .mark svg{width:100%;height:100%}
-.brand .name{white-space:nowrap}
-.brand-flag{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:.85em;line-height:1;font-style:normal;display:inline-block;vertical-align:middle}
+.brand .name{white-space:nowrap;display:inline-flex;align-items:center;gap:.4em}
+.brand-flag{width:1.05em;height:1.05em;display:inline-block;flex-shrink:0;border-radius:2px}
 .brand .name em{font-style:italic;font-weight:400;color:var(--copper);transition:color .35s ease}
 .brand-header.dark .brand .name em{color:var(--copper-2)}
 .brand-tag{font-size:clamp(.6rem,.78vw,.72rem);letter-spacing:.14em;text-transform:uppercase;color:var(--slate);font-weight:500}
@@ -62,12 +62,12 @@ section.slab.dark .statement{color:rgba(246,243,236,.85)}
 section.slab.dark em.acc{color:var(--copper-2)}
 section.slab.dark em.alp{color:var(--alpine-2)}
 
-.frame{width:100%;padding:clamp(1.4rem,3vw,2.6rem) clamp(1rem,4vw,3.6rem);display:flex;flex-direction:column;position:relative;z-index:2}
+.frame{width:100%;padding:clamp(1.4rem,3vw,2.6rem) clamp(1rem,4vw,3.6rem);display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
 section.slab > .frame{min-height:calc(100dvh - 60px)}
-.body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(.8rem,2vw,1.8rem) 0;min-height:0}
+.frame > .body,.body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(.8rem,2vw,1.8rem) 0;min-height:0}
 .byline{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--rule-strong);padding-top:.85rem;font-size:clamp(.66rem,.78vw,.74rem);letter-spacing:.14em;text-transform:uppercase;color:var(--slate);gap:1rem;font-weight:500}
-.byline .swiss{display:inline-flex;align-items:center;gap:.45em;vertical-align:middle}
-.byline .swiss-flag{font-size:1.1em;line-height:1;display:inline-block;vertical-align:middle;font-style:normal;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
+.byline .swiss{display:inline-flex;align-items:center;gap:.45em;vertical-align:middle;flex-wrap:wrap}
+.byline .ch-flag{width:14px;height:14px;display:inline-block;flex-shrink:0;border-radius:2px;vertical-align:middle}
 .byline-link{color:inherit;text-decoration:none;border-bottom:1px solid transparent;transition:color .15s ease,border-color .15s ease}
 .byline-link:hover{color:var(--copper);border-bottom-color:var(--copper)}
 section.slab.dark .byline-link:hover{color:var(--copper-2);border-bottom-color:var(--copper-2)}
@@ -304,7 +304,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 </svg>
 
 <header class="brand-header" id="brandHeader">
-  <a href="#cover" class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em> <span class="brand-flag" aria-label="Swiss flag" role="img">🇨🇭</span></span></a>
+  <a href="#cover" class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em> <svg class="brand-flag" viewBox="0 0 32 32" aria-label="Swiss flag" role="img"><use href="#swiss-flag"/></svg></span></a>
   <span class="brand-tag">Sovereign by design</span>
 </header>
 
@@ -677,7 +677,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <a href="mailto:krzys.wloch@cordillera.ch?subject=Cordillera%20IP%20%E2%80%94%20enquiry" class="contact-cta">Send us a message →</a>
 </div>
 </div>
-<div class="byline reveal"><span class="swiss"><a href="https://www.cordillera.ch" target="_blank" rel="noopener" class="byline-link">Cordillera IP</a> · Lausanne <span class="swiss-flag" aria-label="Swiss flag" role="img">🇨🇭</span> · Swiss R&amp;D</span><a href="https://www.cordillera.ch" target="_blank" rel="noopener" class="byline-link">cordillera.ch</a></div>
+<div class="byline reveal"><span class="swiss"><a href="https://www.cordillera.ch" target="_blank" rel="noopener" class="byline-link">Cordillera IP</a> · Lausanne <svg class="ch-flag" viewBox="0 0 32 32" aria-label="Swiss flag" role="img"><use href="#swiss-flag"/></svg> · Swiss R&amp;D</span><a href="https://www.cordillera.ch" target="_blank" rel="noopener" class="byline-link">cordillera.ch</a></div>
 </div>
 </section>
 
