@@ -46,13 +46,14 @@ body{min-height:100dvh;overflow-x:clip;padding-bottom:36px}
 .brand-header.dark .brand .mark{color:var(--copper-2)}
 .brand .mark svg{width:100%;height:100%}
 .brand .name{white-space:nowrap}
+.brand-flag{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:.85em;line-height:1;font-style:normal;display:inline-block;vertical-align:middle}
 .brand .name em{font-style:italic;font-weight:400;color:var(--copper);transition:color .35s ease}
 .brand-header.dark .brand .name em{color:var(--copper-2)}
 .brand-tag{font-size:clamp(.6rem,.78vw,.72rem);letter-spacing:.14em;text-transform:uppercase;color:var(--slate);font-weight:500}
 .brand-header.dark .brand-tag{color:rgba(246,243,236,.55)}
 
 /* sections */
-section.slab{display:flex;width:100%;min-height:calc(100dvh - 60px);background:var(--paper);color:var(--ink);position:relative}
+section.slab{display:flex;flex-direction:column;justify-content:center;width:100%;min-height:calc(100dvh - 60px);background:var(--paper);color:var(--ink);position:relative}
 section.slab.dark{background:var(--ink);color:var(--paper)}
 section.slab.dark .lede{color:rgba(246,243,236,.78)}
 section.slab.dark .statement{color:rgba(246,243,236,.85)}
@@ -64,7 +65,10 @@ section.slab > .frame{min-height:calc(100dvh - 60px)}
 .body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(.8rem,2vw,1.8rem) 0;min-height:0}
 .byline{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--rule-strong);padding-top:.85rem;font-size:clamp(.66rem,.78vw,.74rem);letter-spacing:.14em;text-transform:uppercase;color:var(--slate);gap:1rem;font-weight:500}
 .byline .swiss{display:inline-flex;align-items:center;gap:.45em;vertical-align:middle}
-.byline .swiss svg{width:14px;height:14px;flex-shrink:0;vertical-align:middle;display:inline-block}
+.byline .swiss-flag{font-size:1.1em;line-height:1;display:inline-block;vertical-align:middle;font-style:normal;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
+.byline-link{color:inherit;text-decoration:none;border-bottom:1px solid transparent;transition:color .15s ease,border-color .15s ease}
+.byline-link:hover{color:var(--copper);border-bottom-color:var(--copper)}
+section.slab.dark .byline-link:hover{color:var(--copper-2);border-bottom-color:var(--copper-2)}
 section.slab.dark .byline{border-color:rgba(246,243,236,.18);color:rgba(246,243,236,.6)}
 
 .kicker{display:inline-flex;align-items:center;gap:.6rem;letter-spacing:.18em;text-transform:uppercase;font-family:var(--sans);font-size:.85rem;color:var(--copper);font-weight:600}
@@ -86,7 +90,7 @@ h1.display em.acc-serif{font-family:var(--serif);font-style:italic;font-weight:4
 section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(--copper-2)}
 
 /* COVER — single column, top-anchored */
-.cover-grid{display:flex;flex-direction:column;gap:clamp(1.4rem,3vw,2.4rem);width:100%;align-items:flex-start;padding-top:clamp(1rem,3vh,3rem)}
+.cover-grid{display:flex;flex-direction:column;gap:clamp(1.4rem,3vw,2.4rem);width:100%;align-items:flex-start}
 .cover-grid h1.display{max-width:18ch;text-align:left;margin-bottom:clamp(.2rem,.6vw,.5rem)}
 .cover-grid > .lede{max-width:60ch}
 .cover-grid > .cover-def{font-family:var(--sans);font-size:clamp(.82rem,.95vw,.92rem);line-height:1.55;color:rgba(12,26,42,.6);font-style:normal;font-weight:400;margin:0;max-width:62ch}
@@ -154,6 +158,8 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .clawdi-inline{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0;display:inline-block;vertical-align:middle;border:1px solid rgba(12,26,42,.15)}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.85rem 1.7rem;background:var(--ink);color:var(--paper);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:4px;font-weight:600;transition:background .2s ease;align-self:flex-start;margin-top:.4rem}
 .btn:hover{background:var(--copper)}
+.contact-cta{align-self:flex-start;margin-top:.4rem;color:var(--copper);font-family:var(--sans);font-size:clamp(.9rem,1vw,1rem);font-weight:500;letter-spacing:.08em;text-decoration:none;border-bottom:1px solid var(--copper);padding-bottom:2px;transition:opacity .15s ease}
+.contact-cta:hover{opacity:.7}
 .trust-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule-strong);margin-top:clamp(1.4rem,2.5vw,2rem);width:100%}
 .trust-strip .contrast-cell{padding:clamp(1rem,1.6vw,1.4rem)}
 
@@ -162,7 +168,8 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .reveal.in{opacity:1;transform:translateY(0)}
 
 /* ARCHITECTURE — anchor lede emphasis */
-.arch-anchor{margin-top:clamp(.7rem,1.4vw,1rem) !important;margin-bottom:clamp(.7rem,1.4vw,1rem) !important;font-size:clamp(1rem,1.18vw,1.12rem) !important;color:rgba(246,243,236,.9) !important;max-width:62ch}
+.arch-anchor{margin-top:clamp(.7rem,1.4vw,1rem) !important;margin-bottom:clamp(.4rem,1vw,.8rem) !important;font-size:clamp(1rem,1.18vw,1.12rem) !important;color:rgba(246,243,236,.9) !important;max-width:62ch}
+.arch-bridge{align-self:center;margin-top:clamp(.3rem,.8vw,.6rem);color:var(--copper-2)}
 
 /* FLOATING FOOTER */
 .float-foot{position:fixed;bottom:0;left:0;right:0;height:36px;display:flex;align-items:center;justify-content:center;gap:clamp(.6rem,1.4vw,1.2rem);background:rgba(12,26,42,.90);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-family:var(--sans);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(246,243,236,.5);z-index:100;border-top:1px solid rgba(246,243,236,.08);font-weight:500}
@@ -295,14 +302,14 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 </svg>
 
 <header class="brand-header" id="brandHeader">
-  <a href="#cover" class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em></span></a>
+  <a href="#cover" class="brand"><span class="mark"><svg><use href="#cord-mark"/></svg></span><span class="name">Cordillera <em>IP</em> <span class="brand-flag" aria-label="Swiss flag" role="img">🇨🇭</span></span></a>
   <span class="brand-tag">The firm-context layer</span>
 </header>
 
 <!-- 1 COVER — single column, top-anchored, staggered hero reveal -->
 <section class="slab" id="cover" data-header-label="The firm-context layer">
 <div class="frame">
-<div class="body" style="justify-content:flex-start">
+<div class="body">
 <div class="cover-grid">
 <h1 class="display reveal-hero"><span class="line">Task AI is impressive.</span><span class="line"><em class="acc-serif accent-late">Sovereign AI</em></span><span class="line">is the real shift.</span></h1>
 <p class="cover-def reveal"><em class="cover-def-key">Sovereign:</em> auditable, under the firm's control, explicit about what it does, what it stores, who it talks to, and how it works.</p>
@@ -323,7 +330,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="contrast-cell">
 <div class="lab">The starting point</div>
 <div class="pair"><span class="from">Prompt</span><span class="arr">→</span><span class="to">Context</span></div>
-<p>A prompt is useful when you bring the question. Context means the system already knows the matter, the people, what came before.</p>
+<p>A prompt is useful when you bring the question. <strong>Context</strong> means the system already knows the matter, the people, what came before.</p>
 </div>
 <div class="contrast-cell">
 <div class="lab">The unit of value</div>
@@ -333,7 +340,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="contrast-cell">
 <div class="lab">The centre of gravity</div>
 <div class="pair"><span class="from">Model</span><span class="arr">→</span><span class="to">Process</span></div>
-<p>Which tool is best today is <strong>the wrong question</strong>. The right one is whether the firm's system — the workflows, safeguards, and context around the tools — can move with them, without starting from scratch every time something better arrives.</p>
+<p>Which tool is best today is the wrong question. <strong>The right one</strong> is whether the firm's system — the workflows, safeguards, and context around the tools — can move with them, without starting from scratch every time something better arrives.</p>
 </div>
 </div>
 <p class="statement reveal" style="margin-top:1.6rem">Today's AI does the visible task well. What matters more is what surrounds it. How the work is shaped, who reviews it, what came before.</p>
@@ -346,7 +353,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="frame">
 <div class="body">
 <div class="kicker reveal">In practice</div>
-<p class="lede reveal" style="margin-top:1.1rem">'AI-native' has become a label AI vendors stick on black-box products they sell to law firms — systems where no one can see what is stored, how it reasons, or whether anyone is actually using it — and call that a strategy. Our version is more boring and more useful: how the work actually executes, how context is checked, how human judgment stays in front. Four things we built around.</p>
+<p class="lede reveal" style="margin-top:1.1rem">'AI-native' has become a label AI vendors stick on black-box products they sell to law firms — systems where no one can see what is stored, how it reasons, or whether anyone is actually using it — and call that a strategy. Our version is more useful — less exciting to market, but it actually works: how the work actually executes, how context is checked, how human judgment stays in front. Four things we built around.</p>
 <div class="pillars reveal">
 <div class="pillar"><div class="num">01</div><h5>Continuity</h5><p>The system isn't re-briefed from scratch. Less repetition, more momentum on live matters.</p></div>
 <div class="pillar"><div class="num">02</div><h5>Coordination</h5><p>The right person sees the right thing at the right stage — backed by deep research, analytical support, and repeatable skills built from our team's real case experience and refined continuously.</p></div>
@@ -392,6 +399,7 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="kicker reveal">Architecture · how it works</div>
 <h2 class="display reveal-hero"><span class="line">The private AI layer</span><span class="line"><em class="acc accent-late">behind the firm</em>.</span></h2>
 <p class="lede reveal arch-anchor">The enduring asset isn't today's model. It's the firm-owned layer that holds our context — how we work, what we know, every live matter — and keeps it consistent across every model we use.</p>
+<div class="kicker reveal arch-bridge">The private layer — visualised</div>
 </div>
 
 <!-- DESKTOP DIAGRAM — three-tier: Practice (top, OUTSIDE boundary) / Platform (middle) / Resources (bottom) -->
@@ -419,11 +427,9 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <!-- ===== TIER 1 — Practice (above boundary) ===== -->
 <g class="diag-tier" data-step="1">
 <ellipse cx="550" cy="100" rx="640" ry="180" fill="url(#practiceGlow)"/>
-<text x="380" y="78" text-anchor="middle" font-family="Montserrat" font-size="34" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lisa Ritchie</text>
-<text x="380" y="102" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="1.8" fill="rgba(246,243,236,0.5)">IP partner</text>
+<text x="380" y="88" text-anchor="middle" font-family="Montserrat" font-size="34" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lisa Ritchie</text>
 
-<text x="720" y="78" text-anchor="middle" font-family="Montserrat" font-size="34" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lidia Lanza</text>
-<text x="720" y="102" text-anchor="middle" font-family="Montserrat" font-size="9.5" font-weight="500" letter-spacing="1.8" fill="rgba(246,243,236,0.5)">IP partner</text>
+<text x="720" y="88" text-anchor="middle" font-family="Montserrat" font-size="34" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lidia Lanza</text>
 
 <text x="550" y="148" text-anchor="middle" font-family="Montserrat" font-size="11" letter-spacing="0.4" fill="rgba(246,243,236,0.6)" font-weight="500">Decades of IP practice</text>
 <text x="550" y="168" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="13" letter-spacing="0.4" fill="rgba(246,243,236,0.55)">the firm's working knowledge — the irreplaceable bit</text>
@@ -536,11 +542,9 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <!-- ===== TIER 1 — Practice ===== -->
 <g class="diag-tier" data-step="1">
 <ellipse cx="190" cy="80" rx="240" ry="120" fill="url(#mPracticeGlow)"/>
-<text x="190" y="56" text-anchor="middle" font-family="Montserrat" font-size="26" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lisa Ritchie</text>
-<text x="190" y="76" text-anchor="middle" font-family="Montserrat" font-size="8.5" font-weight="500" letter-spacing="1.4" fill="rgba(246,243,236,0.5)">IP partner</text>
+<text x="190" y="68" text-anchor="middle" font-family="Montserrat" font-size="26" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lisa Ritchie</text>
 
-<text x="190" y="118" text-anchor="middle" font-family="Montserrat" font-size="26" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lidia Lanza</text>
-<text x="190" y="138" text-anchor="middle" font-family="Montserrat" font-size="8.5" font-weight="500" letter-spacing="1.4" fill="rgba(246,243,236,0.5)">IP partner</text>
+<text x="190" y="124" text-anchor="middle" font-family="Montserrat" font-size="26" font-weight="500" fill="#f6f3ec" letter-spacing="-0.005em">Lidia Lanza</text>
 
 <text x="190" y="174" text-anchor="middle" font-family="Montserrat" font-size="10" letter-spacing="0.3" fill="rgba(246,243,236,0.6)" font-weight="500">Decades of IP practice</text>
 <text x="190" y="192" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(246,243,236,0.55)">the firm's working knowledge</text>
@@ -664,10 +668,10 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <div class="contact-block reveal" id="contact">
 <p class="personal-statement">Cordillera is an IP law practice first. Lisa has spent decades at the sharp end of international IP. The kind of judgment that takes years to build and can't be bought as a subscription. What we've added is the layer underneath her work: AI that holds the firm's context, so every matter moves with the full weight of that practice behind it.</p>
 <p class="cto-line">Want to know how this works under the hood? Talk to our CTO, <a href="mailto:krzys.wloch@cordillera.ch">Krzys Wloch</a><img src="avatar2.jpeg" alt="" class="clawdi-inline">.</p>
-<a href="mailto:hello@cordillera.ch" class="btn">Contact Cordillera IP</a>
+<a href="mailto:krzys.wloch@cordillera.ch?subject=Cordillera%20IP%20%E2%80%94%20enquiry" class="contact-cta">Send us a message →</a>
 </div>
 </div>
-<div class="byline reveal"><span class="swiss">Cordillera IP · Lausanne <svg aria-label="Swiss flag"><use href="#swiss-flag"/></svg> · Swiss R&amp;D</span><span>cordillera.ch</span></div>
+<div class="byline reveal"><span class="swiss"><a href="https://www.cordillera.ch" target="_blank" rel="noopener" class="byline-link">Cordillera IP</a> · Lausanne <span class="swiss-flag" aria-label="Swiss flag" role="img">🇨🇭</span> · Swiss R&amp;D</span><a href="https://www.cordillera.ch" target="_blank" rel="noopener" class="byline-link">cordillera.ch</a></div>
 </div>
 </section>
 
