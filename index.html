@@ -54,8 +54,18 @@ body{min-height:100dvh;overflow-x:clip;padding-bottom:36px}
 .brand-tag{font-size:clamp(.6rem,.78vw,.72rem);letter-spacing:.14em;text-transform:uppercase;color:var(--slate);font-weight:500}
 .brand-header.dark .brand-tag{color:rgba(246,243,236,.55)}
 
-/* sections */
-section.slab{display:flex;flex-direction:column;justify-content:center;width:100%;min-height:calc(100dvh - 60px);background:var(--paper);color:var(--ink);position:relative}
+/* sections — sticky stack: each section sticks at top:60px and the next slides up over it */
+section.slab{display:flex;flex-direction:column;justify-content:center;width:100%;min-height:calc(100dvh - 60px);background:var(--paper);color:var(--ink);position:sticky;top:60px;z-index:var(--slab-z,1)}
+section.slab:nth-of-type(1){--slab-z:1}
+section.slab:nth-of-type(2){--slab-z:2}
+section.slab:nth-of-type(3){--slab-z:3}
+section.slab:nth-of-type(4){--slab-z:4}
+section.slab:nth-of-type(5){--slab-z:5}
+section.slab:nth-of-type(6){--slab-z:6}
+section.slab:nth-of-type(7){--slab-z:7}
+
+@keyframes slab-enter{from{transform:translateY(40px);opacity:.85}to{transform:translateY(0);opacity:1}}
+section.slab.in-view{animation:slab-enter .45s cubic-bezier(.22,1,.36,1) both}
 section.slab.dark{background:var(--ink);color:var(--paper)}
 section.slab.dark .lede{color:rgba(246,243,236,.78)}
 section.slab.dark .statement{color:rgba(246,243,236,.85)}
@@ -180,8 +190,9 @@ section.slab.dark .statement{color:rgba(246,243,236,.86);border-left-color:var(-
 .float-foot-cta:hover{color:rgba(246,243,236,1)}
 @media (max-width:480px){.float-foot-hide{display:none}}
 
-/* PINNED ARCHITECTURE — desktop only. Section becomes a tall scroll container; pin-stage sticks. */
-section.slab.architecture-pinned{display:block;padding:0;min-height:calc(100dvh - 60px)}
+/* PINNED ARCHITECTURE — desktop only. Section becomes a tall scroll container; pin-stage sticks.
+   MUST override sticky so its inner pin-stage can pin without conflict. */
+section.slab.architecture-pinned{display:block;padding:0;min-height:calc(100dvh - 60px);position:relative;top:auto;animation:none}
 section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column;width:100%}
 @media (min-width:861px){
   section.slab.architecture-pinned{min-height:320vh}
@@ -283,6 +294,12 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
   html{scroll-behavior:auto}
   .reveal,.reveal-hero .line,.reveal-hero .accent-late,.cover-grid .cover-statement,.cover-grid .cover-boutique{transition:none;opacity:1;transform:none}
   .diag-svg .diag-tier,.diag-svg-mobile .diag-tier{opacity:1;transition:none}
+  section.slab.in-view{animation:none}
+}
+
+/* MOBILE: sticky stack still applies but content can exceed 100vh */
+@media (max-width:768px){
+  section.slab{min-height:auto}
 }
 </style>
 </head>
@@ -699,6 +716,19 @@ section.slab.architecture-pinned > .pin-stage{display:flex;flex-direction:column
 <script>
 (function(){
   var hasIO = 'IntersectionObserver' in window;
+
+  // ── Sticky-stack slab entrance: add .in-view as each section enters ──
+  var slabs = document.querySelectorAll('section.slab');
+  if (hasIO) {
+    var slabIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) e.target.classList.add('in-view');
+      });
+    }, {threshold:0.08});
+    slabs.forEach(function(s){ slabIO.observe(s); });
+  } else {
+    slabs.forEach(function(s){ s.classList.add('in-view'); });
+  }
 
   // ── Generic reveal-up (one-shot) ───────────────────────────────
   var revealEls = document.querySelectorAll('.reveal');
